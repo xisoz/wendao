@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3ede4;
+  --color-paper-2: #e7dfd2;
+  --color-paper-3: #f7f3ec;
+  --color-ink: #1c1916;
+  --color-ink-soft: #4a433c;
+  --color-muted: #8a8178;
+  --color-line: #ddd4c8;
+  --color-cinnabar: #9c3b2e;
+  --color-cinnabar-ink: #f8f1ea;
+  --color-wood: #3d6b4f;
+  --color-fire: #9c3b2e;
+  --color-earth: #8a6a3b;
+  --color-metal: #7a6548;
+  --color-water: #2c4a5e;
+  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "OPPOSans", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", sans-serif;
+  --font-serif: "Songti SC", "Source Han Serif SC", "Noto Serif SC", "STSong", "SimSun", serif;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-wrap: pretty;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+    font-family: var(--font-serif);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-cinnabar);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .rise {
+    animation: rise 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
