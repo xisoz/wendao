@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { addElements, buildChart, elementState, HOURS, lackElements, validDate } from "@/lib/naming/bazi";
 import { INDUSTRIES, STYLES, type StyleId } from "@/lib/naming/catalog";
@@ -562,8 +563,13 @@ export function Studio() {
     <main className="mx-auto min-h-screen max-w-3xl px-4 pb-16 pt-6">
       <header className="flex items-start gap-3">
         <Seal />
-        <div>
-          <h1 className="font-serif text-3xl leading-none tracking-tight">问道</h1>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-3">
+            <h1 className="font-serif text-3xl leading-none tracking-tight">问道</h1>
+            <Link to="/" className="shrink-0 text-sm text-ink-soft">
+              首页
+            </Link>
+          </div>
           <p className="mt-2 text-sm text-ink-soft">生辰取名 · 公司起名</p>
         </div>
       </header>
