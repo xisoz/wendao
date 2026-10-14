@@ -48,6 +48,28 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 
 const control = "h-11 w-full rounded-sm border border-line bg-paper-3 px-3 text-base text-ink";
 
+function parseClock(value: string): { hour: number; minute: number } | null {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(value.trim());
+  if (!m) return null;
+  const hour = Number(m[1]);
+  const minute = Number(m[2]);
+  if (hour > 23 || minute > 59) return null;
+  return { hour, minute };
+}
+
+/** 填了精确时刻就按时刻排盘；否则按所选时辰（取中点），未知则不排时柱。 */
+function birthTime(hour: string, clock: string): { hour: number | null; minute: number | null } {
+  const exact = parseClock(clock);
+  if (exact) return exact;
+  return { hour: hour === "" ? null : Number(hour), minute: null };
+}
+
+/** 钟点 → 时辰按钮 id：早子 0、晚子 23，其余按偶数整点（丑 01–03 → "2"）。 */
+function hourIdOf(hour: number): string {
+  if (hour === 0 || hour === 23) return String(hour);
+  return String(hour % 2 === 1 ? hour + 1 : hour);
+}
+
 function parseLongitude(value: string): number | null {
   if (!value.trim()) return null;
   const number = Number(value);
@@ -396,10 +418,11 @@ function NameCard({
 }
 
 function BirthFields({
-  year, month, day, hour, gender,
-  longitude, setYear, setMonth, setDay, setHour, setGender, setLongitude,
+  year, month, day, hour, clock, gender,
+  longitude, setYear, setMonth, setDay, setHour, setClock, setGender, setLongitude,
 }: {
-  year: string; month: string; day: string; hour: string; gender: Gender; longitude: string;
+  year: string; month: string; day: string; hour: string; clock: string; gender: Gender; longitude: string;
+  setClock: (v: string) => void;
   setYear: (v: string) => void;
   setMonth: (v: string) => void;
   setDay: (v: string) => void;
@@ -441,7 +464,10 @@ function BirthFields({
               key={h.id}
               type="button"
               aria-pressed={hour === h.id}
-              onClick={() => setHour(h.id)}
+              onClick={() => {
+                setHour(h.id);
+                setClock("");
+              }}
               className={cn(
                 "min-h-11 rounded-sm border px-1 text-sm",
                 hour === h.id ? "border-ink bg-ink text-paper-3" : "border-line bg-paper-3 text-ink",
@@ -454,7 +480,10 @@ function BirthFields({
           <button
             type="button"
             aria-pressed={hour === ""}
-            onClick={() => setHour("")}
+            onClick={() => {
+              setHour("");
+              setClock("");
+            }}
             className={cn(
               "min-h-11 rounded-sm border px-1 text-sm",
               hour === "" ? "border-ink bg-ink text-paper-3" : "border-line bg-paper-3 text-ink",
@@ -463,8 +492,23 @@ function BirthFields({
             未知
           </button>
         </div>
-        <p className="mt-2 text-xs leading-relaxed text-muted">夜里 23 点到 24 点，日期选次日，时辰选子。排盘以节气换年月，不以正月初一。</p>
+        <p className="mt-2 text-xs leading-relaxed text-muted">不确定时辰就选“未知”，时柱不计入，只按年、月、日三柱排。夜里 23 点到 24 点选“晚子”，日期仍填当天。排盘以节气换年月，不以正月初一。</p>
       </div>
+      <Field label="精确出生时刻，可空">
+        <input
+          className={control}
+          type="time"
+          step="60"
+          value={clock}
+          aria-label="精确出生时刻"
+          onChange={(e) => {
+            setClock(e.target.value);
+            const exact = parseClock(e.target.value);
+            if (exact) setHour(hourIdOf(exact.hour));
+          }}
+        />
+        <p className="mt-2 text-xs leading-relaxed text-muted">填了时刻（时:分）就按它排盘，优先于上面的时辰，立春等节气交接精确到分钟；不填则取所选时辰的中点。</p>
+      </Field>
       <Field label="出生地经度，可空">
         <input
           className={control}
@@ -518,7 +562,7 @@ function ChartRead({ chart }: { chart: Chart }) {
     <div className="space-y-4">
       <Pillars chart={chart} />
       <p className="text-sm text-muted">
-        农历 {chart.lunar} · 生肖 {chart.zodiac} · {chart.dayGan}{chart.dayEl} · {chart.strength}
+        农历 {chart.lunar} · 生肖 {chart.zodiac} · {chart.dayGan}{chart.dayEl} · {chart.strength}（简化估算）
       </p>
       <p className="text-xs leading-relaxed text-muted">
         标准时间 {chart.solarTime} · 真太阳时 {chart.trueSolarTime}{!chart.hourKnown ? "（时辰未知）" : chart.longitude === null ? "（未校正）" : `（已校正 ${chart.trueSolarOffset >= 0 ? "+" : ""}${chart.trueSolarOffset} 分钟）`}
@@ -570,7 +614,8 @@ export function Studio() {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [hour, setHour] = useState("10");
+  const [hour, setHour] = useState("");
+  const [clock, setClock] = useState("");
   const [longitude, setLongitude] = useState("");
   const [givenLen, setGivenLen] = useState<1 | 2>(2);
   const [style, setStyle] = useState<StyleId>("清雅");
@@ -590,6 +635,7 @@ export function Studio() {
   const [fMonth, setFMonth] = useState("");
   const [fDay, setFDay] = useState("");
   const [fHour, setFHour] = useState("");
+  const [fClock, setFClock] = useState("");
   const [fLongitude, setFLongitude] = useState("");
   const [fGender, setFGender] = useState<Gender>("m");
   const [brandPref, setBrandPref] = useState<El[] | null>(null);
@@ -622,11 +668,11 @@ export function Studio() {
       year: Number(year),
       month: Number(month),
       day: Number(day),
-      hour: hour === "" ? null : Number(hour),
+      ...birthTime(hour, clock),
       longitude: parseLongitude(longitude),
       gender,
     });
-  }, [birthReady, year, month, day, hour, longitude, gender]);
+  }, [birthReady, year, month, day, hour, clock, longitude, gender]);
   const combinedLack = useMemo(() => {
     if (!liveChart) return [] as El[];
     if (!surnameInfo) return liveChart.lack;
@@ -668,7 +714,7 @@ export function Studio() {
       year: Number(year),
       month: Number(month),
       day: Number(day),
-      hour: hour === "" ? null : Number(hour),
+      ...birthTime(hour, clock),
       longitude: parseLongitude(longitude),
       givenLen,
       style,
@@ -697,7 +743,7 @@ export function Studio() {
             year: Number(fYear),
             month: Number(fMonth),
             day: Number(fDay),
-            hour: fHour === "" ? null : Number(fHour),
+            ...birthTime(fHour, fClock),
             longitude: parseLongitude(fLongitude),
             gender: fGender,
           }
@@ -715,6 +761,7 @@ export function Studio() {
     setMonth("4");
     setDay("12");
     setHour("10");
+    setClock("");
     setGivenLen(2);
     setStyle("清雅");
     setGeneration("");
@@ -784,12 +831,12 @@ export function Studio() {
                 <input className={control} value={surname} maxLength={2} placeholder="林，或欧阳" onChange={(e) => setSurname(e.target.value)} />
               </Field>
               <BirthFields
-                year={year} month={month} day={day} hour={hour} gender={gender} longitude={longitude}
-                setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setGender={setGender} setLongitude={setLongitude}
+                year={year} month={month} day={day} hour={hour} clock={clock} gender={gender} longitude={longitude}
+                setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setClock={setClock} setGender={setGender} setLongitude={setLongitude}
               />
               {liveChart ? (
                 <p className="text-sm leading-relaxed text-ink-soft">
-                  {liveChart.pillars.filter((p) => p.known).map((p) => `${p.gan}${p.zhi}`).join(" ")} · {liveChart.strength}
+                  {liveChart.pillars.filter((p) => p.known).map((p) => `${p.gan}${p.zhi}`).join(" ")} · {liveChart.strength}（简化估算）
                   {" · "}
                   四柱{liveChart.lack.length ? `缺${liveChart.lack.join("、")}` : "无明显所缺"}
                   {surnameInfo ? ` · 姓属${surnameInfo.els.join("、") || "未入字库"}` : ""}
@@ -866,8 +913,8 @@ export function Studio() {
               <Chip on={useFounder} onClick={() => setUseFounder((v) => !v)}>按创办人生辰</Chip>
               {useFounder ? (
                 <BirthFields
-                  year={fYear} month={fMonth} day={fDay} hour={fHour} gender={fGender} longitude={fLongitude}
-                  setYear={setFYear} setMonth={setFMonth} setDay={setFDay} setHour={setFHour} setGender={setFGender} setLongitude={setFLongitude}
+                  year={fYear} month={fMonth} day={fDay} hour={fHour} clock={fClock} gender={fGender} longitude={fLongitude}
+                  setYear={setFYear} setMonth={setFMonth} setDay={setFDay} setHour={setFHour} setClock={setFClock} setGender={setFGender} setLongitude={setFLongitude}
                 />
               ) : null}
               <button type="button" onClick={() => runCompany()} className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm">
@@ -931,8 +978,8 @@ export function Studio() {
         <section className="mt-5 space-y-4 rounded-xl border border-line bg-paper-3 p-5">
           <h2 className="font-serif text-xl">看八字</h2>
           <BirthFields
-            year={year} month={month} day={day} hour={hour} gender={gender} longitude={longitude}
-            setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setGender={setGender} setLongitude={setLongitude}
+            year={year} month={month} day={day} hour={hour} clock={clock} gender={gender} longitude={longitude}
+            setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setClock={setClock} setGender={setGender} setLongitude={setLongitude}
           />
           {liveChart ? <ChartRead chart={liveChart} /> : <p className="text-sm text-muted">选好年月日，四柱会在这里排开。</p>}
           <button
