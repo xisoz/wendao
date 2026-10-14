@@ -4,7 +4,7 @@ import { NAME_POOL, lookup, lookupName } from "./lexicon";
 import { brandNumber, buildWuge, generates, wugeScore } from "./numerology";
 import { initialOf, openEnding, patternOf, toneMark } from "./pinyin";
 import { parseSurname, surnamePinyin } from "./surnames";
-import type { Chart, El, Gender, Lexeme, NameIdea, SurnameInfo, Tone } from "./types";
+import type { Chart, El, Gender, Lexeme, NameIdea, ScoreBreakdown, SurnameInfo } from "./types";
 
 const BAN = new Set("命弱吻呵呼叹告骨骚巫死病亡鬼偷骗恨毒惨坟尸凶祸巾帕布号".split(""));
 
@@ -17,6 +17,7 @@ export type BabyRequest = {
   month: number;
   day: number;
   hour: number | null;
+  longitude?: number | null;
   givenLen: 1 | 2;
   style: StyleId;
   generation: string;
@@ -28,12 +29,11 @@ export type BabyRequest = {
 
 export type CompanyRequest = {
   industryId: string;
-  len: 2 | 3;
   style: StyleId;
   avoid: string;
   withSuffix: boolean;
   include: string;
-  founder: { year: number; month: number; day: number; hour: number | null; gender: Gender } | null;
+  founder: { year: number; month: number; day: number; hour: number | null; longitude?: number | null; gender: Gender } | null;
   preferred: El[] | null;
   batch?: number;
 };
@@ -104,8 +104,104 @@ function naturalFit(chars: Lexeme[], style: StyleId): number {
   return score;
 }
 
+function clampScore(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, Math.round(value)));
+}
+
+function elementWeight(el: El, yong: El[], xi: El[]): number {
+  if (yong.includes(el)) return 1;
+  if (xi.includes(el)) return 0.72;
+  if (yong.some((target) => generates(el, target))) return 0.52;
+  return 0.18;
+}
+
+function baziScore(chars: Lexeme[], yong: El[], xi: El[], lack: El[]): number {
+  const average = chars.reduce((sum, c) => sum + elementWeight(c.el, yong, xi), 0) / chars.length;
+  let score = average * 24;
+  if (lack.length && chars.some((c) => lack.includes(c.el))) score += 2;
+  if (yong.length > 1 && chars.every((c) => yong.includes(c.el) || xi.includes(c.el))) score += 2;
+  if (chars.length >= 2 && new Set(chars.map((c) => c.el)).size === 1) score -= 2;
+  return clampScore(score, 0, 30);
+}
+
+function toneScore(tones: number[], pys: string[]): number {
+  const base = toneFit(tones);
+  let score = base > 0 ? (base / 16) * 14 : 0;
+  if (base > 0 && openEnding(pys[pys.length - 1] ?? "")) score += 2;
+  const initials = pys.map(initialOf).filter(Boolean);
+  if (initials.length >= 2 && initials.every((initial) => initial === initials[0])) score -= 4;
+  return clampScore(score, 0, 18);
+}
+
+function meaningScore(chars: Lexeme[]): number {
+  let score = 8;
+  for (const char of chars) {
+    if (RARE.has(char.c)) score -= 3;
+    if (char.gloss.includes("宜慎") || char.gloss.includes("稍")) score -= 3;
+    if (char.gloss.includes("字库著录")) score -= 2;
+    else if (char.gloss.length >= 8) score += 1;
+  }
+  if (chars.length >= 2) {
+    const shared = chars[0]?.tags.filter((tag) => chars[1]?.tags.includes(tag)) ?? [];
+    if (shared.length) score += 2;
+    if (chars.every((char) => char.st >= 18)) score -= 2;
+  }
+  return clampScore(score, 0, 18);
+}
+
+function styleScore(chars: Lexeme[], style: StyleId): number {
+  if (style === "不限") return 8;
+  const matched = chars.filter((char) => char.tags.includes(style)).length;
+  return clampScore((matched / chars.length) * 12, 0, 12);
+}
+
+function numerologyScore(
+  wuge: ReturnType<typeof buildWuge>,
+  brand: ReturnType<typeof brandNumber>,
+): number {
+  if (wuge) return clampScore(6 + wugeScore(wuge) * 0.16, 0, 11);
+  if (!brand) return 5;
+  if (brand.level === "大吉") return 10;
+  if (brand.level === "吉") return 7;
+  if (brand.level === "平") return 4;
+  return 1;
+}
+
+function usabilityScore(chars: Lexeme[], kind: "baby" | "company"): number {
+  let score = 8;
+  for (const char of chars) {
+    if (RARE.has(char.c)) score -= 2;
+    if (char.st >= 20) score -= 1;
+    if (char.gloss.includes("宜慎")) score -= 1;
+  }
+  if (kind === "company" && chars.length > 4) score -= Math.min(5, (chars.length - 4) * 1.2);
+  return clampScore(score, 0, 10);
+}
+
+function scoreName(input: {
+  chars: Lexeme[];
+  yong: El[];
+  xi: El[];
+  lack: El[];
+  tones: number[];
+  pys: string[];
+  style: StyleId;
+  wuge: ReturnType<typeof buildWuge>;
+  brand: ReturnType<typeof brandNumber>;
+  kind: "baby" | "company";
+}): ScoreBreakdown {
+  const bazi = baziScore(input.chars, input.yong, input.xi, input.lack);
+  const tone = toneScore(input.tones, input.pys);
+  const meaning = meaningScore(input.chars);
+  const style = styleScore(input.chars, input.style);
+  const numerology = numerologyScore(input.wuge, input.brand);
+  const usability = usabilityScore(input.chars, input.kind);
+  const total = bazi + tone + meaning + style + numerology + usability;
+  return { bazi, tone, meaning, style, numerology, usability, total };
+}
+
 function takePage(list: Scored[], batch: number | undefined, size = 12): { picked: Scored[]; page: number; pages: number } {
-  const wide = diversify(list, 36);
+  const wide = diversify(list, 36).sort((a, b) => b.score - a.score);
   const pages = Math.max(1, Math.ceil(wide.length / size));
   const page = ((batch ?? 0) % pages + pages) % pages;
   return { picked: wide.slice(page * size, page * size + size), page, pages };
@@ -119,7 +215,7 @@ function asLexeme(ch: string): Lexeme | null {
   return { ...g, g: "n", use: "皆", tags: [], gloss: "字库著录其音、部首与康熙笔画" };
 }
 
-type Scored = { chars: Lexeme[]; score: number };
+type Scored = { chars: Lexeme[]; score: number; breakdown: ScoreBreakdown };
 
 function diversify(list: Scored[], n: number): Scored[] {
   const out: Scored[] = [];
@@ -173,13 +269,15 @@ function brief(input: {
   if (manual) {
     basis.push(`五行：按手选的${input.yong.join("、")}取字，没有改用命局里的所缺。用字是${own}。`);
   } else if (lack.length) {
+    const context = input.kind === "baby" ? "合姓与四柱之后" : "合创办人四柱之后";
     basis.push(
       fills.length
-        ? `五行：合姓与四柱之后，所缺是${lack.join("、")}。${own}，补上${fills.join("、")}。`
-        : `五行：所缺是${lack.join("、")}。这一组没能直接补上，只作音义备选。用字是${own}。`,
+        ? `五行：${context}，所缺是${lack.join("、")}。${own}，补上${fills.join("、")}。`
+        : `五行：${context}，所缺是${lack.join("、")}。这一组没能直接补上，只作音义备选。用字是${own}。`,
     );
   } else {
-    basis.push(`五行：合姓之后没有明显所缺，按喜用${input.yong.join("、")}轻取。用字是${own}。`);
+    const context = input.kind === "baby" ? "合姓之后没有明显所缺" : "当前命局没有明显所缺";
+    basis.push(`五行：${context}，按喜用${input.yong.join("、")}轻取。用字是${own}。`);
   }
   const tonesOk = pattern === "平仄" || pattern === "仄平" || pattern === "平仄平" || pattern === "仄平仄" || pattern === "平平仄" || pattern === "仄仄平";
   basis.push(`音律：平仄是${pattern}。${tonesOk ? "声调错开，叫起来不粘在一个调上。" : "声调可以接受，没有同音连读。"}`);
@@ -194,8 +292,8 @@ function brief(input: {
     basis.push(`姓氏：${surname.text}属${surname.els.join("、")}，已计入五行，不单看八字。`);
   }
   const note = input.kind === "baby"
-    ? `备注：生日按公历换节气排四柱${input.hourKnown ? "" : "，时辰未填，时柱没算"}。缺与弱按干支加权，再加上姓的五行。字义来自取名字库，不是随口凑的。这是对照用的依据，不是命运结论。`
-    : `备注：字号先看行业五行${input.hourKnown ? "，并按创办人四柱所缺来补" : ""}。字义与康熙笔画写在上面，方便核对。这是起名参照，不是旺衰承诺。`;
+    ? `生日按公历换节气排四柱${input.hourKnown ? "" : "，时辰未填，时柱没算"}。缺与弱按干支加权，再加上姓的五行。字义来自取名字库，不是随口凑的。这是对照用的依据，不是命运结论。`
+    : `字号先看行业五行${input.hourKnown ? "，并按创办人四柱所缺来补" : ""}。字义与康熙笔画写在上面，方便核对。这是起名参照，不是旺衰承诺。`;
   const reasons = [
     fills.length ? `补${fills.join("、")}。${meaning}` : meaning,
     ...basis,
@@ -212,7 +310,7 @@ function explainBaby(
   hourKnown: boolean,
   style: StyleId,
   wuge: ReturnType<typeof buildWuge>,
-): { reasons: string[]; pattern: string; scoreShown: number; meaning: string; basis: string[]; note: string; fills: El[] } {
+): { reasons: string[]; pattern: string; meaning: string; basis: string[]; note: string; fills: El[] } {
   const tones = [...surname.pys.map((p) => p.tone), ...chars.map((c) => c.tone)];
   const pattern = patternOf(tones);
   const explained = brief({
@@ -230,13 +328,7 @@ function explainBaby(
   if (style !== "不限" && chars.some((c) => c.tags.includes(style))) {
     explained.basis.push(`气质：偏向${style}，字的意象与此相符。`);
   }
-  const score =
-    40 +
-    chars.reduce((s, c) => s + elFit(c.el, yong, []), 0) / chars.length +
-    toneFit(tones) +
-    (wuge ? wugeScore(wuge) : 0) +
-    chars.reduce((s, c) => s + styleFit(c.tags, style), 0) / chars.length;
-  return { ...explained, pattern, scoreShown: Math.max(48, Math.min(96, Math.round(score))) };
+  return { ...explained, pattern };
 }
 
 export function generateBaby(req: BabyRequest): NameResult {
@@ -248,6 +340,7 @@ export function generateBaby(req: BabyRequest): NameResult {
     month: req.month,
     day: req.day,
     hour: req.hour,
+    longitude: req.longitude,
     gender: req.gender,
   });
   const combined = addElements(chart.counts, parsed.els);
@@ -281,19 +374,19 @@ export function generateBaby(req: BabyRequest): NameResult {
     if (!manual && lack.length && !chars.some((c) => lack.includes(c.el))) return;
     const tones = [...surnameTones, ...chars.map((c) => c.tone as number)];
     const w = buildWuge(parsed.strokes, chars.map((c) => c.st));
-    let score =
-      chars.reduce((s, c) => s + elFit(c.el, yong, xi), 0) / chars.length +
-      toneFit(tones) +
-      (w ? wugeScore(w) : 0) +
-      chars.reduce((s, c) => s + styleFit(c.tags, req.style), 0) / chars.length +
-      naturalFit(chars, req.style);
-    if (openEnding(chars[chars.length - 1]?.py ?? "")) score += 3;
-    const initials = pys.map(initialOf);
-    if (initials.length >= 2 && initials.every((x) => x === initials[0])) score -= 8;
-    if (yong.length >= 2 && new Set(chars.map((c) => c.el)).size >= 2 && chars.every((c) => yong.includes(c.el) || xi.includes(c.el))) {
-      score += 4;
-    }
-    scored.push({ chars, score });
+    const breakdown = scoreName({
+      chars,
+      yong,
+      xi,
+      lack: manual ? [] : lack,
+      tones,
+      pys,
+      style: req.style,
+      wuge: w,
+      brand: null,
+      kind: "baby",
+    });
+    scored.push({ chars, score: breakdown.total, breakdown });
   };
 
   if (req.givenLen === 1) {
@@ -309,7 +402,7 @@ export function generateBaby(req: BabyRequest): NameResult {
   scored.sort((a, b) => b.score - a.score);
   const { picked, page, pages } = takePage(scored, req.batch);
   const sp = surnamePinyin(parsed);
-  const ideas: NameIdea[] = picked.map(({ chars, score }) => {
+  const ideas: NameIdea[] = picked.map(({ chars, score, breakdown }) => {
     const wuge = buildWuge(parsed.strokes, chars.map((c) => c.st));
     const meta = explainBaby(parsed, chars, yong, lack, manual, chart.hourKnown, req.style, wuge);
     const given = chars.map((c) => c.c).join("");
@@ -319,7 +412,8 @@ export function generateBaby(req: BabyRequest): NameResult {
       full: `${parsed.text}${given}`,
       given,
       pinyin: py,
-      score: Math.max(54, Math.min(96, Math.round(64 + score * 0.42))),
+      score,
+      scoreBreakdown: breakdown,
       chars,
       pattern: meta.pattern,
       reasons: meta.reasons,
@@ -355,6 +449,7 @@ export function generateCompany(req: CompanyRequest): NameResult {
       month: req.founder.month,
       day: req.founder.day,
       hour: req.founder.hour,
+      longitude: req.founder.longitude,
       gender: req.founder.gender,
     });
   }
@@ -376,7 +471,7 @@ export function generateCompany(req: CompanyRequest): NameResult {
     bag = NAME_POOL.filter((p) => !BAN.has(p.c) && !avoid.has(p.c) && p.gloss.length >= 4);
   }
   bag.sort((a, b) => elFit(b.el, yong, xi) - elFit(a.el, yong, xi));
-  bag = bag.slice(0, req.len === 3 ? 16 : 40);
+  bag = bag.slice(0, 40);
   if (fixed && !bag.some((p) => p.c === fixed.c)) bag = [fixed, ...bag];
 
   const scored: Scored[] = [];
@@ -388,35 +483,105 @@ export function generateCompany(req: CompanyRequest): NameResult {
     if (!manual && lack.length && !chars.some((c) => lack.includes(c.el))) return;
     const tones = chars.map((c) => c.tone as number);
     const brand = brandNumber(chars.map((c) => c.st));
+    const breakdown = scoreName({
+      chars,
+      yong,
+      xi,
+      lack: manual ? [] : lack,
+      tones,
+      pys,
+      style: req.style,
+      wuge: null,
+      brand,
+      kind: "company",
+    });
+    scored.push({ chars, score: breakdown.total, breakdown });
+  };
+
+  const quickScore = (chars: Lexeme[]) => {
+    const tones = chars.map((c) => c.tone as number);
     let score =
       chars.reduce((s, c) => s + elFit(c.el, yong, xi), 0) / chars.length +
       toneFit(tones) +
       chars.reduce((s, c) => s + styleFit(c.tags, req.style), 0) / chars.length +
       naturalFit(chars, req.style);
-    if (brand?.level === "大吉") score += 8;
-    else if (brand?.level === "吉") score += 4;
-    else if (brand?.level === "慎") score -= 8;
-    if (openEnding(chars[chars.length - 1]?.py ?? "")) score += 3;
-    scored.push({ chars, score });
+    for (let i = 1; i < chars.length; i++) {
+      const shared = chars[i - 1]?.tags.filter((tag) => chars[i]?.tags.includes(tag)) ?? [];
+      if (shared.length) score += 3;
+    }
+    if (fixed && chars.some((c) => c.c === fixed.c)) score += 30;
+    return score;
   };
 
-  if (req.len === 2) {
-    for (const a of bag) for (const b of bag) if (a.c !== b.c) consider([a, b]);
-  } else {
-    for (const a of bag) {
-      for (const b of bag) {
-        if (a.c === b.c) continue;
-        for (const c of bag) {
-          if (c.c === a.c || c.c === b.c) continue;
-          consider([a, b, c]);
+  const companyLengths = [2, 3, 4, 5, 6, 7, 8];
+  const generateForLength = (length: number) => {
+    const poolSize = length === 2 ? 40 : length === 3 ? 20 : length === 4 ? 16 : length === 5 ? 14 : length === 6 ? 12 : 10;
+    const lengthBag = bag.slice(0, poolSize);
+    if (length === 2) {
+      for (const a of lengthBag) for (const b of lengthBag) if (a.c !== b.c) consider([a, b]);
+    } else if (length === 3) {
+      for (const a of lengthBag) {
+        for (const b of lengthBag) {
+          if (a.c === b.c) continue;
+          for (const c of lengthBag) {
+            if (c.c === a.c || c.c === b.c) continue;
+            consider([a, b, c]);
+          }
         }
       }
+      return;
     }
+
+    // Longer company names use beam search instead of a full cartesian product.
+    const beamWidth = length === 4 ? 180 : length === 5 ? 150 : length === 6 ? 120 : length === 7 ? 100 : 90;
+    let beam: Lexeme[][] = [[]];
+    for (let position = 0; position < length; position++) {
+      const expanded: Lexeme[][] = [];
+      for (const chars of beam) {
+        for (const candidate of lengthBag) {
+          if (chars.some((c) => c.c === candidate.c || c.py === candidate.py)) continue;
+          const next = [...chars, candidate];
+          if (badPhonetics(next.map((c) => c.py))) continue;
+          expanded.push(next);
+        }
+      }
+      expanded.sort((a, b) => quickScore(b) - quickScore(a));
+      const fixedCandidates = fixed ? expanded.filter((chars) => chars.some((c) => c.c === fixed.c)) : [];
+      const ordinaryCandidates = fixed ? expanded.filter((chars) => !chars.some((c) => c.c === fixed.c)) : expanded;
+      const fixedQuota = fixed ? Math.min(Math.ceil(beamWidth / 3), fixedCandidates.length) : 0;
+      beam = [
+        ...fixedCandidates.slice(0, fixedQuota),
+        ...ordinaryCandidates.slice(0, beamWidth - fixedQuota),
+      ];
+    }
+    for (const chars of beam) consider(chars);
+  };
+
+  for (const length of companyLengths) generateForLength(length);
+
+  const byLength = new Map<number, Scored[]>();
+  for (const item of scored) {
+    const group = byLength.get(item.chars.length) ?? [];
+    group.push(item);
+    byLength.set(item.chars.length, group);
   }
-  scored.sort((a, b) => b.score - a.score);
-  const { picked, page, pages } = takePage(scored, req.batch);
+  for (const group of byLength.values()) group.sort((a, b) => b.score - a.score);
+  const ordered: Scored[] = [];
+  const availableLengths = [...byLength.keys()].sort((a, b) => a - b);
+  for (let index = 0; ordered.length < scored.length; index++) {
+    let added = false;
+    for (const length of availableLengths) {
+      const item = byLength.get(length)?.[index];
+      if (item) {
+        ordered.push(item);
+        added = true;
+      }
+    }
+    if (!added) break;
+  }
+  const { picked, page, pages } = takePage(ordered, req.batch);
   const suffix = req.withSuffix && industry.suffix ? industry.suffix : "";
-  const ideas: NameIdea[] = picked.map(({ chars, score }) => {
+  const ideas: NameIdea[] = picked.map(({ chars, score, breakdown }) => {
     const brand = brandNumber(chars.map((c) => c.st));
     const given = chars.map((c) => c.c).join("");
     const full = `${given}${suffix}`;
@@ -438,7 +603,8 @@ export function generateCompany(req: CompanyRequest): NameResult {
       full,
       given,
       pinyin: chars.map((c) => toneMark(c.py, c.tone)).join(" "),
-      score: Math.max(54, Math.min(96, Math.round(64 + score * 0.42))),
+      score,
+      scoreBreakdown: breakdown,
       chars,
       pattern: patternOf(chars.map((c) => c.tone)),
       reasons: meta.reasons,

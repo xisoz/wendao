@@ -32,6 +32,22 @@ declare module "lunar-javascript" {
     getMonthDiShi(): string;
     getDayDiShi(): string;
     getTimeDiShi(): string;
+    getYearXun(): string;
+    getMonthXun(): string;
+    getDayXun(): string;
+    getTimeXun(): string;
+    getYearXunKong(): string;
+    getMonthXunKong(): string;
+    getDayXunKong(): string;
+    getTimeXunKong(): string;
+    getTaiYuan(): string;
+    getTaiYuanNaYin(): string;
+    getTaiXi(): string;
+    getTaiXiNaYin(): string;
+    getMingGong(): string;
+    getMingGongNaYin(): string;
+    getShenGong(): string;
+    getShenGongNaYin(): string;
     getYun(gender: number): YunLike;
   }
   export interface LiuNianLike {
@@ -58,6 +74,7 @@ declare module "lunar-javascript" {
     getYearShengXiao(): string;
     getEightChar(): EightCharLike;
     getYearInGanZhi(): string;
+    getMonthInGanZhi(): string;
   }
   export interface SolarLike {
     getLunar(): LunarLike;

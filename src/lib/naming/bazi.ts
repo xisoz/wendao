@@ -1,5 +1,5 @@
 import { Solar } from "lunar-javascript";
-import type { Chart, El, Gender, LuckStep, Pillar } from "./types";
+import type { Chart, El, FlowMonth, Gender, LuckStep, LuckYear, Pillar, ShenSha } from "./types";
 import { controls, generates } from "./numerology";
 
 export const STEM_EL: Record<string, El> = {
@@ -84,20 +84,102 @@ export function addElements(counts: Record<El, number>, els: El[]): Record<El, n
   return next;
 }
 
+const BRANCHES = "子丑寅卯辰巳午未申酉戌亥";
+
+function dateParts(date: Date): [number, number, number, number, number] {
+  return [
+    date.getUTCFullYear(),
+    date.getUTCMonth() + 1,
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+  ];
+}
+
+function formatDate(date: Date): string {
+  const [year, month, day, hour, minute] = dateParts(date);
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+function equationOfTime(date: Date): number {
+  const start = Date.UTC(date.getUTCFullYear(), 0, 1);
+  const day = Math.floor((date.getTime() - start) / 86_400_000) + 1;
+  const angle = (2 * Math.PI * (day - 81)) / 364;
+  return 9.87 * Math.sin(2 * angle) - 7.53 * Math.cos(angle) - 1.5 * Math.sin(angle);
+}
+
+function solarTimes(input: { year: number; month: number; day: number; hour: number; longitude?: number | null }) {
+  const clock = new Date(Date.UTC(input.year, input.month - 1, input.day, input.hour, 30, 0));
+  const longitude = typeof input.longitude === "number" && Number.isFinite(input.longitude) ? input.longitude : null;
+  const offset = longitude === null ? 0 : Math.round((longitude - 120) * 4 + equationOfTime(clock));
+  const trueSolar = new Date(clock.getTime() + offset * 60_000);
+  const [year, month, day, hour, minute] = dateParts(trueSolar);
+  return {
+    clock,
+    trueSolar,
+    offset,
+    longitude,
+    solar: Solar.fromYmdHms(year, month, day, hour, minute, 0),
+  };
+}
+
+function branchHits(branches: string[], pool: string): string[] {
+  return [...new Set(branches.filter((branch) => pool.includes(branch)))];
+}
+
+function buildShenSha(dayGan: string, yearZhi: string, knownBranches: string[], dayXunKong: string): ShenSha[] {
+  const tianYi: Record<string, string> = {
+    甲: "丑未", 戊: "丑未", 庚: "丑未",
+    乙: "子申", 己: "子申",
+    丙: "亥酉", 丁: "亥酉",
+    壬: "卯巳", 癸: "卯巳",
+    辛: "寅午",
+  };
+  const wenChang: Record<string, string> = {
+    甲: "巳", 乙: "午", 丙: "申", 丁: "酉", 戊: "申", 己: "酉", 庚: "亥", 辛: "子", 壬: "寅", 癸: "卯",
+  };
+  const luShen: Record<string, string> = {
+    甲: "寅", 乙: "卯", 丙: "巳", 丁: "午", 戊: "巳", 己: "午", 庚: "申", 辛: "酉", 壬: "亥", 癸: "子",
+  };
+  const yangRen: Record<string, string> = {
+    甲: "卯", 乙: "辰", 丙: "午", 丁: "未", 戊: "午", 己: "未", 庚: "酉", 辛: "戌", 壬: "子", 癸: "丑",
+  };
+  const groupStar = (name: string, mapping: Record<string, string>, source: string, note: string): ShenSha => {
+    const branches = mapping[source] ?? "";
+    return { name, branches: [...branches], hits: branchHits(knownBranches, branches), note };
+  };
+  const groupBranchStar = (name: string, source: string, mapping: Record<string, string>, note: string): ShenSha => {
+    const branches = Object.entries(mapping).find(([key]) => key.includes(source))?.[1] ?? "";
+    return { name, branches: [...branches], hits: branchHits(knownBranches, branches), note };
+  };
+  return [
+    groupStar("天乙贵人", tianYi, dayGan, "以日干起贵人，命盘出现对应地支时标记。"),
+    groupStar("文昌", wenChang, dayGan, "以日干取文昌，作为学习、表达的传统参照。"),
+    groupStar("禄神", luShen, dayGan, "以日干取禄神，作为职业与承载力的传统参照。"),
+    groupStar("羊刃", yangRen, dayGan, "以日干取羊刃，只作结构提示，不单独判吉凶。"),
+    groupBranchStar("桃花", yearZhi, { 寅午戌: "卯", 申子辰: "酉", 巳酉丑: "午", 亥卯未: "子" }, "以年支取桃花，常用于观察人缘与审美表达。"),
+    groupBranchStar("驿马", yearZhi, { 寅午戌: "申", 申子辰: "寅", 巳酉丑: "亥", 亥卯未: "巳" }, "以年支取驿马，常用于观察迁动与变化。"),
+    groupBranchStar("华盖", yearZhi, { 寅午戌: "戌", 申子辰: "辰", 巳酉丑: "丑", 亥卯未: "未" }, "以年支取华盖，常用于观察独处、专长与精神性。"),
+    { name: "日空", branches: [...dayXunKong], hits: branchHits(knownBranches, dayXunKong), note: "日柱所在旬的空亡地支，遇到时只作结构提示。" },
+  ].map((item) => ({ ...item, branches: item.branches.filter((branch) => BRANCHES.includes(branch)) }));
+}
+
 export function buildChart(input: {
   year: number;
   month: number;
   day: number;
   hour: number | null;
   gender: Gender | null;
+  longitude?: number | null;
   flowYear?: number;
 }): Chart {
   const hourKnown = input.hour !== null;
   const hour = input.hour ?? 12;
-  const solar = Solar.fromYmdHms(input.year, input.month, input.day, hour, 30, 0);
+  const solarData = solarTimes({ year: input.year, month: input.month, day: input.day, hour, longitude: input.longitude });
+  const solar = solarData.solar;
   const lunar = solar.getLunar();
   const ec = lunar.getEightChar();
-  const specs: { label: string; gan: string; zhi: string; hide: string[]; shiGan: string; shiZhi: string[]; nayin: string; dishi: string }[] = [
+  const specs: { label: string; gan: string; zhi: string; hide: string[]; shiGan: string; shiZhi: string[]; nayin: string; dishi: string; xun: string; xunKong: string }[] = [
     {
       label: "年",
       gan: ec.getYearGan(),
@@ -107,6 +189,8 @@ export function buildChart(input: {
       shiZhi: ec.getYearShiShenZhi(),
       nayin: ec.getYearNaYin(),
       dishi: ec.getYearDiShi(),
+      xun: ec.getYearXun(),
+      xunKong: ec.getYearXunKong(),
     },
     {
       label: "月",
@@ -117,6 +201,8 @@ export function buildChart(input: {
       shiZhi: ec.getMonthShiShenZhi(),
       nayin: ec.getMonthNaYin(),
       dishi: ec.getMonthDiShi(),
+      xun: ec.getMonthXun(),
+      xunKong: ec.getMonthXunKong(),
     },
     {
       label: "日",
@@ -127,6 +213,8 @@ export function buildChart(input: {
       shiZhi: ec.getDayShiShenZhi(),
       nayin: ec.getDayNaYin(),
       dishi: ec.getDayDiShi(),
+      xun: ec.getDayXun(),
+      xunKong: ec.getDayXunKong(),
     },
     {
       label: "时",
@@ -137,6 +225,8 @@ export function buildChart(input: {
       shiZhi: ec.getTimeShiShenZhi(),
       nayin: ec.getTimeNaYin(),
       dishi: ec.getTimeDiShi(),
+      xun: ec.getTimeXun(),
+      xunKong: ec.getTimeXunKong(),
     },
   ];
 
@@ -221,6 +311,14 @@ export function buildChart(input: {
 
   const flowYear = input.flowYear ?? new Date().getFullYear();
   let daYun: LuckStep[] = [];
+  let liuNian: LuckYear[] = [];
+  const currentMonth = new Date().getFullYear() === flowYear ? new Date().getMonth() + 1 : 0;
+  const liuYue: FlowMonth[] = Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    const lunar = Solar.fromYmd(flowYear, month, 15).getLunar();
+    const ganZhi = lunar.getMonthInGanZhi();
+    return { month, ganZhi, el: STEM_EL[ganZhi.slice(0, 1)] ?? "土", current: month === currentMonth };
+  });
   let startText = input.gender ? "" : "未选性别，大运顺逆暂不确定。";
   let currentYun: LuckStep | null = null;
   let flowGanZhi = "";
@@ -236,6 +334,12 @@ export function buildChart(input: {
         endYear: d.getEndYear(),
         startAge: d.getStartAge(),
         endAge: d.getEndAge(),
+        liuNian: d.getLiuNian(12).map((n) => ({
+          year: n.getYear(),
+          ganZhi: n.getGanZhi(),
+          el: STEM_EL[n.getGanZhi().slice(0, 1)] ?? "土",
+          yun: d.getGanZhi(),
+        })),
       }));
     currentYun = daYun.find((d) => flowYear >= d.startYear && flowYear <= d.endYear) ?? null;
     const host = yun.getDaYun(9).find((d) => flowYear >= d.getStartYear() && flowYear <= d.getEndYear());
@@ -244,6 +348,34 @@ export function buildChart(input: {
   } else {
     flowGanZhi = Solar.fromYmd(flowYear, 6, 1).getLunar().getYearInGanZhi();
   }
+
+  const seenYears = new Set<number>();
+  liuNian = daYun
+    .flatMap((d) => d.liuNian ?? [])
+    .filter((year) => year.year >= flowYear - 2 && year.year <= flowYear + 10)
+    .filter((year) => {
+      if (seenYears.has(year.year)) return false;
+      seenYears.add(year.year);
+      return true;
+    })
+    .map((year) => ({ ...year, current: year.year === flowYear }));
+
+  const knownBranches = pillars.filter((p) => p.known).map((p) => p.zhi);
+  const taiYuan = ec.getTaiYuan();
+  const taiXi = ec.getTaiXi();
+  const mingGong = hourKnown ? ec.getMingGong() : null;
+  const shenGong = hourKnown ? ec.getShenGong() : null;
+  const shenSha = buildShenSha(dayGan, pillars[0]?.zhi ?? "子", knownBranches, ec.getDayXunKong());
+  const basis = [
+    "节气换月：按出生时刻对应的节气划分年柱、月柱。",
+    solarData.longitude === null
+      ? "真太阳时：未输入出生地经度，暂按标准时间排盘。"
+      : `真太阳时：按东经 ${solarData.longitude}° 与均时差校正，已修正 ${solarData.offset >= 0 ? "+" : ""}${solarData.offset} 分钟。`,
+    hourKnown ? "时柱：已按所选时辰参与五行、十神、命宫与身宫计算。" : "时柱：未填时辰，时柱、命宫、身宫和相关神煞不作确定判断。",
+    "十神、藏干、纳音、十二长生、胎元、胎息、命宫、身宫均由本地排盘规则推导。",
+    "神煞按常用年支、日干规则列出，只作结构提示，不单独决定吉凶。",
+    "大运顺逆按年干阴阳与性别推导；流年按对应大运展开。",
+  ];
 
   const flowStem = flowGanZhi.slice(0, 1);
   const flowEl = STEM_EL[flowStem] ?? "土";
@@ -258,6 +390,10 @@ export function buildChart(input: {
     dayEl,
     monthZhi,
     lunar: lunar.toString(),
+    solarTime: hourKnown ? formatDate(solarData.clock) : `${input.year}-${String(input.month).padStart(2, "0")}-${String(input.day).padStart(2, "0")} 未填时辰`,
+    trueSolarTime: hourKnown ? formatDate(solarData.trueSolar) : "未校正（时辰未知）",
+    longitude: solarData.longitude,
+    trueSolarOffset: solarData.offset,
     zodiac: lunar.getYearShengXiao(),
     counts,
     lack,
@@ -265,14 +401,26 @@ export function buildChart(input: {
     yong,
     xi,
     tiao,
+    taiYuan,
+    taiYuanNaYin: ec.getTaiYuanNaYin(),
+    taiXi,
+    taiXiNaYin: ec.getTaiXiNaYin(),
+    mingGong,
+    mingGongNaYin: mingGong ? ec.getMingGongNaYin() : null,
+    shenGong,
+    shenGongNaYin: shenGong ? ec.getShenGongNaYin() : null,
+    shenSha,
     summary,
     yongText,
     yearText,
     startText,
     daYun,
+    liuNian,
+    liuYue,
     currentYun,
     flowYear,
     flowGanZhi,
     hourKnown,
+    basis,
   };
 }
