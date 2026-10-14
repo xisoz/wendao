@@ -399,15 +399,624 @@ function BirthFields({
   year, month, day, hour, gender,
   longitude, setYear, setMonth, setDay, setHour, setGender, setLongitude,
 }: {
-  year: string; montßÍw¶‰ËkºwµçA•¹%¡½ÕĞ¹¥‘•…ÍlÁtü¹¥€üü¹Õ±°¤ì4(€ô4(4(€™Õ¹Ñ¥½¸™¥±±M…µÁ±” ¤ì4(€€€Í•Ñ5½‘” ‰‰…‰äˆ¤ì4(€€€Í•ÑMÕÉ¹…µ” ‹šz\ˆ¤ì4(€€€Í•Ñ•¹‘•È ‰˜ˆ¤ì4(€€€Í•Ñe•…È ˆÈÀÈĞˆ¤ì4(€€€Í•Ñ5½¹Ñ  ˆĞˆ¤ì4(€€€Í•Ñ…ä ˆÄÈˆ¤ì4(€€€Í•Ñ!½ÕÈ ˆÄÀˆ¤ì4(€€€Í•Ñ¥Ù•¹1•¸ È¤ì4(€€€Í•ÑMÑå±” ‹šâ¦nˆ¤ì4(€€€Í•Ñ•¹•É…Ñ¥½¸ ˆˆ¤ì4(€€€Í•ÑÙ½¥ ˆˆ¤ì4(€€€Í•ÑAÉ•™•ÉÉ•¡¹Õ±°¤ì4(€ô4(4(€½¹ÍĞ¥‘•…Ì€ôµ½‘”€ôôô€‰‰…‰äˆ€ü‰…‰å=ÕĞü¹¥‘•…Ì€üümt€è‰É…¹‘=ÕĞü¹¥‘•…Ì€üümtì4(€½¹ÍĞ…Ñ¥Ù•=ÕĞ€ôµ½‘”€ôôô€‰‰…‰äˆ€ü‰…‰å=ÕĞ€è‰É…¹‘=ÕĞì4(€½¹ÍĞ±•à€ôÕÍ•5•µ¼  ¤€ôøÍ•…É¡±åÁ¡Ì¡ÅÕ•Éä°±•á°¤°mÅÕ•Éä°±•á±t¤ì4(4(€É•ÑÕÉ¸€ 4(€€€€ñµ…¥¸±…ÍÍ9…µ”ô‰µàµ…ÕÑ¼µ¥¸µ µÍÉ••¸µ…àµÜ´Íá°Áà´ĞÁˆ´ÄØÁĞ´Øˆø4(€€€€€€ñ¡•…‘•È±…ÍÍ9…µ”ô‰™±•à¥Ñ•µÌµÍÑ…ÉĞ…À´Ìˆø4(€€€€€€€€ñM•…°€¼ø4(€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µ¥¸µÜ´À™±•à´Äˆø4(€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à¥Ñ•µÌµ‰…Í•±¥¹”©ÕÍÑ¥™äµ‰•Ñİ••¸…À´Ìˆø4(€€€€€€€€€€€€ñ Ä±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞ´Íá°±•…‘¥¹œµ¹½¹”ÑÉ…­¥¹œµÑ¥¡Ğˆû¦^»¦Lğ½ Äø4(€€€€€€€€€€€€ñ1¥¹¬Ñ¼ôˆ¼ˆ±…ÍÍ9…µ”ô‰Í¡É¥¹¬´ÀÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™Ğˆø4(€€€€€€€€€€€€€ƒ¦š[¦†Ô4(€€€€€€€€€€€€ğ½1¥¹¬ø4(€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÈÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™ĞˆûR¢úÃ–>[–B4ƒ
-Üƒ–³–>ã¢Öß–B4ğ½Àø4(€€€€€€€€ğ½‘¥Øø4(€€€€€€ğ½¡•…‘•Èø4(€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´Ôµ…àµÜµá°Ñ•áĞµÍ´±•…‘¥¹œµÉ•±…á•Ñ•áĞµ¥¹¬µÍ½™Ğˆø4(€€€€€€€ƒ–#r/–noš~Ç¾ò3–7¢†‡–¶_–ZsR£¦~Ï–ú/–¶_’æ'’â;+–êßg–¶_–ã/²SRïšRû–r£–B3’â–òƒêã’â+¢şgšb¿’òƒî–>[–B7j–>Ÿ¾ò3’â7šb¿–F÷¢şCjîO¢ºë4(€€€€€€ğ½Àø4(4(€€€€€€ñ¹…Ø±…ÍÍ9…µ”ô‰µĞ´ÔÉ¥É¥µ½±Ì´Ğ…À´ÄÉ½Õ¹‘•µ±œ‰œµÁ…Á•È´ÈÀ´Äˆ…É¥„µ±…‰•°ô‹–"š‚<ˆø4(€€€€€€€ì 4(€€€€€€€€€l4(€€€€€€€€€€€l‰¹…µ”ˆ°€‹–>[–B4‰t°4(€€€€€€€€€€€l‰¡…ÉĞˆ°€‹–¯–¶\‰t°4(€€€€€€€€€€€l‰±•àˆ°€‹–¶_–êL‰t°4(€€€€€€€€€€€l‰Í…Ù•ˆ°€‹–B7–0‰t°4(€€€€€€€€€t…Ì½¹ÍĞ4(€€€€€€€€¤¹µ…À ¡m¥°±…‰•±t¤€ôø€ 4(€€€€€€€€€€ñ‰ÕÑÑ½¸4(€€€€€€€€€€€­•äõí¥‘ô4(€€€€€€€€€€€ÑåÁ”ô‰‰ÕÑÑ½¸ˆ4(€€€€€€€€€€€½¹±¥¬õì ¤€ôøÍ•ÑQ…ˆ¡¥¥ô4(€€€€€€€€€€€±…ÍÍ9…µ”õí¸ 4(€€€€€€€€€€€€€€‰µ¥¸µ ´ÄÄÉ½Õ¹‘•µµÑ•áĞµÍ´ˆ°4(€€€€€€€€€€€€€Ñ…ˆ€ôôô¥€ü€‰‰œµÁ…Á•È´ÌÑ•áĞµ¥¹¬ˆ€è€‰Ñ•áĞµ¥¹¬µÍ½™Ğˆ°4(€€€€€€€€€€€€¥ô4(€€€€€€€€€€ø4(€€€€€€€€€€€í±…‰•±ô4(€€€€€€€€€€€í¥€ôôô€‰Í…Ù•ˆ€˜˜Í…Ù•¹±•¹Ñ €ü€ñÍÁ…¸±…ÍÍ9…µ”ô‰µ°´ÄÑ…‰Õ±…Èµ¹ÕµÌÑ•áĞµµÕÑ•ˆùíÍ…Ù•¹±•¹Ñ¡ôğ½ÍÁ…¸ø€è¹Õ±±ô4(€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€¤¥ô4(€€€€€€ğ½¹…Øø4(4(€€€€€íÑ…ˆ€ôôô€‰¹…µ”ˆ€ü€ 4(€€€€€€€€ñÍ•Ñ¥½¸±…ÍÍ9…µ”ô‰µĞ´ÔÍÁ…”µä´Ğˆø4(€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à…À´Èˆø4(€€€€€€€€€€€€ñ¡¥À½¸õíµ½‘”€ôôô€‰‰…‰ä‰ô½¹±¥¬õì ¤€ôøÍ•Ñ5½‘” ‰‰…‰äˆ¥ôûšZÃR–üğ½¡¥Àø4(€€€€€€€€€€€€ñ¡¥À½¸õíµ½‘”€ôôô€‰½µÁ…¹ä‰ô½¹±¥¬õì ¤€ôøÍ•Ñ5½‘” ‰½µÁ…¹äˆ¥ôû–³–>àğ½¡¥Àø4(€€€€€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ±…ÍÍ9…µ”ô‰µ¥¸µ ´ÄÄÁà´ÈÑ•áĞµÍ´Ñ•áĞµµÕÑ•ˆ½¹±¥¬õí™¥±±M…µÁ±•ôø4(€€€€€€€€€€€€€ƒ–†¯’â’â«’ú/–¶@4(€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€€€ğ½‘¥Øø4(4(€€€€€€€€€íµ½‘”€ôôô€‰‰…‰äˆ€ü€ 4(€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰ÍÁ…”µä´ÔÉ½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹–Lˆø4(€€€€€€€€€€€€€€€€ñ¥¹ÁÕĞ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õíÍÕÉ¹…µ•ôµ…á1•¹Ñ õìÉôÁ±…•¡½±‘•Èô‹šz_¾ò3š"[š²Ÿ¦bÌˆ½¹¡…¹”õì¡”¤€ôøÍ•ÑMÕÉ¹…µ”¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô€¼ø4(€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€ñ	¥ÉÑ¡¥•±‘Ì(€€€€€€€€€€€€€€€å•…Èõíå•…Éôµ½¹Ñ õíµ½¹Ñ¡ô‘…äõí‘…åô¡½ÕÈõí¡½ÕÉô•¹‘•Èõí•¹‘•Éô±½¹¥ÑÕ‘”õí±½¹¥ÑÕ‘•ô(€€€€€€€€€€€€€€€Í•Ñe•…ÈõíÍ•Ñe•…ÉôÍ•Ñ5½¹Ñ õíÍ•Ñ5½¹Ñ¡ôÍ•Ñ…äõíÍ•Ñ…åôÍ•Ñ!½ÕÈõíÍ•Ñ!½ÕÉôÍ•Ñ•¹‘•ÈõíÍ•Ñ•¹‘•ÉôÍ•Ñ1½¹¥ÑÕ‘”õíÍ•Ñ1½¹¥ÑÕ‘•ô(€€€€€€€€€€€€€€¼ø4(€€€€€€€€€€€€€í±¥Ù•¡…ÉĞ€ü€ 4(€€€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´±•…‘¥¹œµÉ•±…á•Ñ•áĞµ¥¹¬µÍ½™Ğˆø4(€€€€€€€€€€€€€€€€€í±¥Ù•¡…ÉĞ¹Á¥±±…ÉÌ¹™¥±Ñ•È ¡À¤€ôøÀ¹­¹½İ¸¤¹µ…À ¡À¤€ôø€‘íÀ¹…¹ô‘íÀ¹é¡¥õ€¤¹©½¥¸ ˆ€ˆ¥ôƒ
-Üí±¥Ù•¡…ÉĞ¹ÍÑÉ•¹Ñ¡ô4(€€€€€€€€€€€€€€€€€ìˆƒ
-Ü€‰ô4(€€€€€€€€€€€€€€€€€ƒ–noš~Åí±¥Ù•¡…ÉĞ¹±…¬¹±•¹Ñ €üƒòè‘í±¥Ù•¡…ÉĞ¹±…¬¹©½¥¸ ‹ˆ¥õ€€è€‹š^ƒšb;šbûš&òè‰ô4(€€€€€€€€€€€€€€€€€íÍÕÉ¹…µ•%¹™¼€ü€ƒ
-Üƒ–O–Æx‘íÍÕÉ¹…µ•%¹™¼¹•±Ì¹©½¥¸ ‹ˆ¤ñğ€‹šr«–—–¶_–êL‰õ€€è€ˆ‰ô4(€€€€€€€€€€€€€€€€€íÍÕÉ¹…µ•%¹™¼4(€€€€€€€€€€€€€€€€€€€€ü½µ‰¥¹•‘1…¬¹±•¹Ñ 4(€€€€€€€€€€€€€€€€€€€€€€ü€ƒ
-Üƒ–B#¢Ößšv—–ºs¢†”‘í½µ‰¥¹•‘1…¬¹©½¥¸ ‹ˆ¥õ€4(€€€€€€€€€€€€€€€€€€€€€€è€ˆƒ
-Üƒ–B#¢Ößšv—’êS¢†3š¾S¢ú¦ö@ˆ4(€€€€€€€€€€€€€€€€€€€€è€ˆ‰ô4(€€€€€€€€€€€€€€€€ğ½Àø4(€€€€€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€€€€€€ñ‘¥Øø4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µˆ´ÈÑ•áĞµÍ´™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¬µÍ½™Ğˆû–B7–¶_–¶_šVÀğ½‘¥Øø4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à…À´Èˆø4(€€€€€€€€€€€€€€€€€€ñ¡¥À½¸õí¥Ù•¹1•¸€ôôô€Éô½¹±¥¬õì ¤€ôøÍ•Ñ¥Ù•¹1•¸ È¥ôû–>3–¶\ğ½¡¥Àø4(€€€€€€€€€€€€€€€€€€ñ¡¥À½¸õí¥Ù•¹1•¸€ôôô€Åô½¹±¥¬õì ¤€ôøÍ•Ñ¥Ù•¹1•¸ Ä¥ôû–6W–¶\ğ½¡¥Àø4(€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ñ‘¥Øø4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µˆ´ÈÑ•áĞµÍ´™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¬µÍ½™ĞˆûšÂS¢Ò ğ½‘¥Øø4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à™±•àµİÉ…À…À´Èˆø4(€€€€€€€€€€€€€€€€€íMQe1L¹µ…À ¡Ì¤€ôø€ 4(€€€€€€€€€€€€€€€€€€€€ñ¡¥À­•äõíÍô½¸õíÍÑå±”€ôôôÍô½¹±¥¬õì ¤€ôøÍ•ÑMÑå±”¡Ì¥ôùíÍôğ½¡¥Àø4(€€€€€€€€€€€€€€€€€€¤¥ô4(€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ñ±A¥­•ÈÙ…±Õ”õíÁÉ•™•ÉÉ•‘ô½¹¡…¹”õíÍ•ÑAÉ•™•ÉÉ•‘ô€¼ø4(€€€€€€€€€€€€€í¥Ù•¹1•¸€ôôô€È€ü€ 4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰É¥É¥µ½±ÌµlÅ™É}…ÕÑ½t…À´Èˆø4(€€€€€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹¢ú#–"–¶_¾ò3–>¿¦èˆø4(€€€€€€€€€€€€€€€€€€€€ñ¥¹ÁÕĞ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õí•¹•É…Ñ¥½¹ôµ…á1•¹Ñ õìÅô½¹¡…¹”õì¡”¤€ôøÍ•Ñ•¹•É…Ñ¥½¸¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô€¼ø4(€€€€€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€€€€€ñ‘¥Øø4(€€€€€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µˆ´ÈÑ•áĞµÍ´™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¬µÍ½™Ğˆû’ö7ö¸ğ½‘¥Øø4(€€€€€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à…À´Èˆø4(€€€€€€€€€€€€€€€€€€€€€€ñ¡¥À½¸õí•¹•É…Ñ¥½¹A½Ì€ôôô€‰™É½¹Ğ‰ô½¹±¥¬õì ¤€ôøÍ•Ñ•¹•É…Ñ¥½¹A½Ì ‰™É½¹Ğˆ¥ôû–&4ğ½¡¥Àø4(€€€€€€€€€€€€€€€€€€€€€€ñ¡¥À½¸õí•¹•É…Ñ¥½¹A½Ì€ôôô€‰‰…¬‰ô½¹±¥¬õì ¤€ôøÍ•Ñ•¹•É…Ñ¥½¹A½Ì ‰‰…¬ˆ¥ôû–B8ğ½¡¥Àø4(€€€€€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹¦ÿ–òj–¶\ˆø4(€€€€€€€€€€€€€€€€ñ¥¹ÁÕĞ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õí…Ù½¥‘ôÁ±…•¡½±‘•Èô‹’â7–ş–’k¾ò3–g¢š¢êË–òjˆ½¹¡…¹”õì¡”¤€ôøÍ•ÑÙ½¥¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô€¼ø4(€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ½¹±¥¬õì ¤€ôøÉÕ¹	…‰ä ¥ô±…ÍÍ9…µ”ô‰ÍÑ¥­ä‰½ÑÑ½´´Ìè´ÄÀ ´ÄÈÜµ™Õ±°É½Õ¹‘•µÍ´‰œµ¥¹¹…‰…ÈÑ•áĞµ‰…Í”™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¹…‰…Èµ¥¹¬Í¡…‘½ÜµÍ´ˆø4(€€€€€€€€€€€€€€€ƒ¢†‡–B44(€€€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€¤€è€ 4(€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰ÍÁ…”µä´ÔÉ½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹¢†3’âhˆø4(€€€€€€€€€€€€€€€€ñÍ•±•Ğ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õí¥¹‘ÕÍÑÉå%‘ô½¹¡…¹”õì¡”¤€ôøÍ•Ñ%¹‘ÕÍÑÉå%¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ôø4(€€€€€€€€€€€€€€€€€í%9UMQI%L¹µ…À ¡¤¤€ôø€ 4(€€€€€€€€€€€€€€€€€€€€ñ½ÁÑ¥½¸­•äõí¤¹¥‘ôÙ…±Õ”õí¤¹¥‘ôùí¤¹¹…µ•ôğ½½ÁÑ¥½¸ø4(€€€€€€€€€€€€€€€€€€¤¥ô4(€€€€€€€€€€€€€€€€ğ½Í•±•Ğø4(€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™Ğˆùí%9UMQI%L¹™¥¹ ¡¤¤€ôø¤¹¥€ôôô¥¹‘ÕÍÑÉå%¤ü¹¹½Ñ•ôğ½Àø4(€€€€€€€€€€€€€€ñ‘¥Øø(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µˆ´ÈÑ•áĞµÍ´™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¬µÍ½™ĞˆûšÂS¢Ò ğ½‘¥Øø4(€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à™±•àµİÉ…À…À´Èˆø4(€€€€€€€€€€€€€€€€€íMQe1L¹µ…À ¡Ì¤€ôø€ 4(€€€€€€€€€€€€€€€€€€€€ñ¡¥À­•äõíÍô½¸õí‰É…¹‘MÑå±”€ôôôÍô½¹±¥¬õì ¤€ôøÍ•Ñ	É…¹‘MÑå±”¡Ì¥ôùíÍôğ½¡¥Àø4(€€€€€€€€€€€€€€€€€€¤¥ô4(€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€ñ±A¥­•ÈÙ…±Õ”õí‰É…¹‘AÉ•™ô½¹¡…¹”õíÍ•Ñ	É…¹‘AÉ•™ô€¼ø4(€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹šÏR£j’â’â«–¶_¾ò3–>¿¦èˆø4(€€€€€€€€€€€€€€€€ñ¥¹ÁÕĞ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õí¥¹±Õ‘•ôµ…á1•¹Ñ õìÅô½¹¡…¹”õì¡”¤€ôøÍ•Ñ%¹±Õ‘”¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô€¼ø4(€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€ñ¥•±±…‰•°ô‹¦ÿ–òj–¶\ˆø4(€€€€€€€€€€€€€€€€ñ¥¹ÁÕĞ±…ÍÍ9…µ”õí½¹ÑÉ½±ôÙ…±Õ”õí‰É…¹‘Ù½¥‘ô½¹¡…¹”õì¡”¤€ôøÍ•Ñ	É…¹‘Ù½¥¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô€¼ø4(€€€€€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€€€€€ñ¡¥À½¸õíİ¥Ñ¡MÕ™™¥áô½¹±¥¬õì ¤€ôøÍ•Ñ]¥Ñ¡MÕ™™¥à ¡Ø¤€ôø€…Ø¥ôû¦f¢†3’âk¢¾4ğ½¡¥Àø4(€€€€€€€€€€€€€€ñ¡¥À½¸õíÕÍ•½Õ¹‘•Éô½¹±¥¬õì ¤€ôøÍ•ÑUÍ•½Õ¹‘•È ¡Ø¤€ôø€…Ø¥ôûš2'–"o–*{’êëR¢úÀğ½¡¥Àø4(€€€€€€€€€€€€€íÕÍ•½Õ¹‘•È€ü€ 4(€€€€€€€€€€€€€€€€ñ	¥ÉÑ¡¥•±‘Ì(€€€€€€€€€€€€€€€€€å•…Èõí™e•…Éôµ½¹Ñ õí™5½¹Ñ¡ô‘…äõí™…åô¡½ÕÈõí™!½ÕÉô•¹‘•Èõí™•¹‘•Éô±½¹¥ÑÕ‘”õí™1½¹¥ÑÕ‘•ô(€€€€€€€€€€€€€€€€€Í•Ñe•…ÈõíÍ•Ñe•…ÉôÍ•Ñ5½¹Ñ õíÍ•Ñ5½¹Ñ¡ôÍ•Ñ…äõíÍ•Ñ…åôÍ•Ñ!½ÕÈõíÍ•Ñ!½ÕÉôÍ•Ñ•¹‘•ÈõíÍ•Ñ•¹‘•ÉôÍ•Ñ1½¹¥ÑÕ‘”õíÍ•Ñ1½¹¥ÑÕ‘•ô(€€€€€€€€€€€€€€€€¼ø4(€€€€€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ½¹±¥¬õì ¤€ôøÉÕ¹½µÁ…¹ä ¥ô±…ÍÍ9…µ”ô‰ÍÑ¥­ä‰½ÑÑ½´´Ìè´ÄÀ ´ÄÈÜµ™Õ±°É½Õ¹‘•µÍ´‰œµ¥¹¹…‰…ÈÑ•áĞµ‰…Í”™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¹…‰…Èµ¥¹¬Í¡…‘½ÜµÍ´ˆø4(€€€€€€€€€€€€€€€ƒ¢†‡–¶_–>Ü4(€€€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€¥ô4(4(€€€€€€€€€í…Ñ¥Ù•=ÕĞü¹•ÉÉ½È€ü€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµ¥¹¹…‰…Èˆùí…Ñ¥Ù•=ÕĞ¹•ÉÉ½Éôğ½Àø€è¹Õ±±ô4(€€€€€€€€€í…Ñ¥Ù•=ÕĞü¹‘¥…¹½Í¥Ì€ü€ 4(€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰É½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€ñ È±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞµá°ˆû’êS¢†3š&òèğ½ Èø4(€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÈÑ•áĞµÍ´±•…‘¥¹œµÉ•±…á•Ñ•áĞµ¥¹¬µÍ½™Ğˆùí…Ñ¥Ù•=ÕĞ¹‘¥…¹½Í¥Íôğ½Àø4(€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€í…Ñ¥Ù•=ÕĞü¹¹½Ñ”€ü€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµµÕÑ•ˆùí…Ñ¥Ù•=ÕĞ¹¹½Ñ•ôğ½Àø€è¹Õ±±ô4(€€€€€€€€€€ñ‘¥ØÉ•˜õí±¥ÍÑI•™ô±…ÍÍ9…µ”ô‰ÍÁ…”µä´Ìˆø4(€€€€€€€€€€€í¥‘•…Ì¹µ…À ¡¥‘•„¤€ôø€ 4(€€€€€€€€€€€€€€ñ9…µ•…É4(€€€€€€€€€€€€€€€­•äõí¥‘•„¹¥‘ô4(€€€€€€€€€€€€€€€¥‘•„õí¥‘•…ô4(€€€€€€€€€€€€€€€½Á•¸õí½Á•¹%€ôôô¥‘•„¹¥‘ô4(€€€€€€€€€€€€€€€Í…Ù•õíÍ…Ù•¹Í½µ” ¡Ì¤€ôøÌ¹™Õ±°€ôôô¥‘•„¹™Õ±°€˜˜Ì¹­¥¹€ôôô¥‘•„¹­¥¹¥ô4(€€€€€€€€€€€€€€€½¹=Á•¸õì ¤€ôøÍ•Ñ=Á•¹% ¡¥¤€ôø€¡¥€ôôô¥‘•„¹¥€ü¹Õ±°€è¥‘•„¹¥¤¥ô4(€€€€€€€€€€€€€€€½¹M…Ù”õì ¤€ôøÉ•µ•µ‰•È¡¥‘•„¥ô4(€€€€€€€€€€€€€€¼ø4(€€€€€€€€€€€€¤¥ô4(€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€í…Ñ¥Ù•=ÕĞ€˜˜…Ñ¥Ù•=ÕĞ¹Á…•Ì€ø€Ä€ü€ 4(€€€€€€€€€€€€ñ‰ÕÑÑ½¸4(€€€€€€€€€€€€€ÑåÁ”ô‰‰ÕÑÑ½¸ˆ4(€€€€€€€€€€€€€±…ÍÍ9…µ”ô‰ ´ÄÈÜµ™Õ±°É½Õ¹‘•µÍ´‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÑ•áĞµ¥¹¬ˆ4(€€€€€€€€€€€€€½¹±¥¬õì ¤€ôø€¡µ½‘”€ôôô€‰‰…‰äˆ€üÉÕ¹	…‰ä¡…Ñ¥Ù•=ÕĞ¹Á…”€¬€Ä¤€èÉÕ¹½µÁ…¹ä¡…Ñ¥Ù•=ÕĞ¹Á…”€¬€Ä¤¥ô4(€€€€€€€€€€€€ø4(€€€€€€€€€€€€€ƒ–7¢†‡’âš&ä4(€€€€€€€€€€€€€€ñÍÁ…¸±…ÍÍ9…µ”ô‰µ°´ÈÑ…‰Õ±…Èµ¹ÕµÌÑ•áĞµµÕÑ•ˆø4(€€€€€€€€€€€€€€€í…Ñ¥Ù•=ÕĞ¹Á…”€¬€Åô½í…Ñ¥Ù•=ÕĞ¹Á…•Íô4(€€€€€€€€€€€€€€ğ½ÍÁ…¸ø4(€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€í…Ñ¥Ù•=ÕĞü¹¡…ÉĞ€˜˜µ½‘”€ôôô€‰‰…‰äˆ€ü€ 4(€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰É½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€ñ È±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞµá°ˆû¢şg–òƒn`ğ½ Èø4(€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µĞ´Ìˆø4(€€€€€€€€€€€€€€€€ñ¡…ÉÑI•…¡…ÉĞõí…Ñ¥Ù•=ÕĞ¹¡…ÉÑô€¼ø4(€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€€í…Ñ¥Ù•=ÕĞü¹¡…ÉĞ€˜˜µ½‘”€ôôô€‰½µÁ…¹äˆ€ü€ 4(€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰É½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€ñ È±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞµá°ˆû–"o–*{’êèğ½ Èø4(€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰µĞ´Ìˆø4(€€€€€€€€€€€€€€€€ñ¡…ÉÑI•…¡…ÉĞõí…Ñ¥Ù•=ÕĞ¹¡…ÉÑô€¼ø4(€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€ğ½Í•Ñ¥½¸ø4(€€€€€€¤€è¹Õ±±ô4(4(€€€€€íÑ…ˆ€ôôô€‰¡…ÉĞˆ€ü€ 4(€€€€€€€€ñÍ•Ñ¥½¸±…ÍÍ9…µ”ô‰µĞ´ÔÍÁ…”µä´ĞÉ½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€ñ È±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞµá°ˆûr/–¯–¶\ğ½ Èø4(€€€€€€€€€€ñ	¥ÉÑ¡¥•±‘Ì(€€€€€€€€€€€å•…Èõíå•…Éôµ½¹Ñ õíµ½¹Ñ¡ô‘…äõí‘…åô¡½ÕÈõí¡½ÕÉô•¹‘•Èõí•¹‘•Éô±½¹¥ÑÕ‘”õí±½¹¥ÑÕ‘•ô(€€€€€€€€€€€Í•Ñe•…ÈõíÍ•Ñe•…ÉôÍ•Ñ5½¹Ñ õíÍ•Ñ5½¹Ñ¡ôÍ•Ñ…äõíÍ•Ñ…åôÍ•Ñ!½ÕÈõíÍ•Ñ!½ÕÉôÍ•Ñ•¹‘•ÈõíÍ•Ñ•¹‘•ÉôÍ•Ñ1½¹¥ÑÕ‘”õíÍ•Ñ1½¹¥ÑÕ‘•ô(€€€€€€€€€€¼ø4(€€€€€€€€€í±¥Ù•¡…ÉĞ€ü€ñ¡…ÉÑI•…¡…ÉĞõí±¥Ù•¡…ÉÑô€¼ø€è€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµµÕÑ•ˆû¦'––÷–æÓšr#š^—¾ò3–noš~Ç’òk–r£¢şg¦3š:K–òğ½Àùô4(€€€€€€€€€€ñ‰ÕÑÑ½¸4(€€€€€€€€€€€ÑåÁ”ô‰‰ÕÑÑ½¸ˆ4(€€€€€€€€€€€±…ÍÍ9…µ”ô‰ ´ÄÈÜµ™Õ±°É½Õ¹‘•µÍ´‰œµ¥¹¹…‰…È™½¹Ğµµ•‘¥Õ´Ñ•áĞµ¥¹¹…‰…Èµ¥¹¬ˆ4(€€€€€€€€€€€½¹±¥¬õì ¤€ôøì4(€€€€€€€€€€€€€Í•Ñ5½‘” ‰‰…‰äˆ¤ì4(€€€€€€€€€€€€€Í•ÑQ…ˆ ‰¹…µ”ˆ¤ì4(€€€€€€€€€€€õô4(€€€€€€€€€€ø4(€€€€€€€€€€€ƒR£¢şg–òƒnc–>[–B44(€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€ğ½Í•Ñ¥½¸ø4(€€€€€€¤€è¹Õ±±ô4(4(€€€€€íÑ…ˆ€ôôô€‰±•àˆ€ü€ 4(€€€€€€€€ñÍ•Ñ¥½¸±…ÍÍ9…µ”ô‰µĞ´ÔÍÁ…”µä´Ğˆø4(€€€€€€€€€€ñ¥•±±…‰•°ô‹š~—–¶\ˆø4(€€€€€€€€€€€€ñ¥¹ÁÕĞ4(€€€€€€€€€€€€€±…ÍÍ9…µ”õí½¹ÑÉ½±ô4(€€€€€€€€€€€€€Ù…±Õ”õíÅÕ•Éåô4(€€€€€€€€€€€€€Á±…•¡½±‘•Èô‹’â’â«–¶_¾ò3š"[š.ó¦~Ìˆ4(€€€€€€€€€€€€€½¹¡…¹”õì¡”¤€ôøÍ•ÑEÕ•Éä¡”¹Ñ…É•Ğ¹Ù…±Õ”¥ô4(€€€€€€€€€€€€¼ø4(€€€€€€€€€€ğ½¥•±ø4(€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à™±•àµİÉ…À…À´Èˆø4(€€€€€€€€€€€€ñ¡¥À½¸õí±•á°€ôôô€‹–£¦ ‰ô½¹±¥¬õì ¤€ôøÍ•Ñ1•á° ‹–£¦ ˆ¥ôû–£¦ ğ½¡¥Àø4(€€€€€€€€€€€í1L¹µ…À ¡•°¤€ôø€ 4(€€€€€€€€€€€€€€ñ¡¥À­•äõí•±ô½¸õí±•á°€ôôô•±ô½¹±¥¬õì ¤€ôøÍ•Ñ1•á°¡•°¥ôùí•±ôğ½¡¥Àø4(€€€€€€€€€€€€¤¥ô4(€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµáÌ±•…‘¥¹œµÉ•±…á•Ñ•áĞµµÕÑ•ˆø4(€€€€€€€€€€€ƒ²SRïš2'+–êßg–¶_–ã/æ’öO–>–ú¾ò3šÂ×’ösšÂÓ¢&ç’ös¢&ã¾ò3š&’î—–âã–J3º’öOš&/–g²SRï’â7–B3’êS¢†3šb¿–>[–B7R£j’òƒî–öKÆï¾ò3’â7šb¿–¶_’æ'šr³¢ê¯4(€€€€€€€€€€ğ½Àø4(€€€€€€€€€€ñÕ°±…ÍÍ9…µ”ô‰ÍÁ…”µä´Èˆø4(€€€€€€€€€€€í±•à¹µ…À ¡œ¤€ôøì4(€€€€€€€€€€€€€½¹ÍĞ¹…µ•€ô±½½­ÕÁ9…µ”¡œ¹Œ¤ì4(€€€€€€€€€€€€€É•ÑÕÉ¸€ 4(€€€€€€€€€€€€€€€€ñ±¤­•äõíœ¹ô±…ÍÍ9…µ”ô‰É½Õ¹‘•µ±œ‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÁà´ĞÁä´Ìˆø4(€€€€€€€€€€€€€€€€€€ñ‘¥Ø±…ÍÍ9…µ”ô‰™±•à¥Ñ•µÌµ‰…Í•±¥¹”©ÕÍÑ¥™äµ‰•Ñİ••¸…À´Ìˆø4(€€€€€€€€€€€€€€€€€€€€ñÍÁ…¸±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞ´Éá°ˆùíœ¹ôğ½ÍÁ…¸ø4(€€€€€€€€€€€€€€€€€€€€ñÍÁ…¸±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµµÕÑ•ˆùíÑ½¹•5…É¬¡œ¹Áä°œ¹Ñ½¹”¥ôğ½ÍÁ…¸ø4(€€€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÄÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™Ğˆø4(€€€€€€€€€€€€€€€€€€€€ñ±Q•áĞ•°õíœ¹•±ô€¼øƒ
-Üíœ¹É…ñğ€‹ŠP‰÷¦ ƒ
-Üƒ–êßdíœ¹ÍÑôƒRì4(€€€€€€€€€€€€€€€€€€€íœ¹ÑÉ…€„ôôœ¹Œ€ü€ƒ
-Üƒæ’öL€‘íœ¹ÑÉ…‘õ€€è€ˆ‰ô4(€€€€€€€€€€€€€€€€€€ğ½Àø4(€€€€€€€€€€€€€€€€€í¹…µ•€ü€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÄÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™Ğˆùí¹…µ•¹±½ÍÍôğ½Àø€è¹Õ±±ô4(€€€€€€€€€€€€€€€€ğ½±¤ø4(€€€€€€€€€€€€€€¤ì4(€€€€€€€€€€€ô¥ô4(€€€€€€€€€€ğ½Õ°ø4(€€€€€€€€€ì…ÅÕ•Éä€˜˜±•á°€ôôô€‹–£¦ ˆ€ü€ 4(€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰Ñ•áĞµÍ´Ñ•áĞµµÕÑ•ˆû–#¢úO–—¢šš~—j–¶_’â7¢úO–—š^Û¾ò3–>«¦rË–ë¢şg’â¢†3’êS¢†3¦3j–&7’âš&çğ½Àø4(€€€€€€€€€€¤€è¹Õ±±ô4(€€€€€€€€ğ½Í•Ñ¥½¸ø4(€€€€€€¤€è¹Õ±±ô4(4(€€€€€íÑ…ˆ€ôôô€‰Í…Ù•ˆ€ü€ 4(€€€€€€€€ñÍ•Ñ¥½¸±…ÍÍ9…µ”ô‰µĞ´ÔÍÁ…”µä´Ìˆø4(€€€€€€€€€íÍ…Ù•¹±•¹Ñ €ôôô€À€ü€ 4(€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰É½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´ÔÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™Ğˆø4(€€€€€€€€€€€€€ƒ–B7–3¢şc¦ëv–r£–B7–¶_’â+
-ç3šRÛ’â/7¾ò3¢ºÃ–r£¢şg–>Ã¢ºû–’¦3¾ò3’â7’â+’òƒ4(€€€€€€€€€€€€ğ½Àø4(€€€€€€€€€€¤€è€ 4(€€€€€€€€€€€Í…Ù•¹µ…À ¡Ì¤€ôø€ 4(€€€€€€€€€€€€€€ñ…ÉÑ¥±”­•äõíÌ¹¥‘ô±…ÍÍ9…µ”ô‰™±•à¥Ñ•µÌµÍÑ…ÉĞ©ÕÍÑ¥™äµ‰•Ñİ••¸…À´ÌÉ½Õ¹‘•µá°‰½É‘•È‰½É‘•Èµ±¥¹”‰œµÁ…Á•È´ÌÀ´Ôˆø4(€€€€€€€€€€€€€€€€ñ‘¥Øø4(€€€€€€€€€€€€€€€€€€ñ Ì±…ÍÍ9…µ”ô‰™½¹ĞµÍ•É¥˜Ñ•áĞ´Éá°ˆùíÌ¹™Õ±±ôğ½ Ìø4(€€€€€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÄÑ•áĞµÍ´Ñ•áĞµµÕÑ•ˆùíÌ¹Á¥¹å¥¹ôğ½Àø4(€€€€€€€€€€€€€€€€€€ñÀ±…ÍÍ9…µ”ô‰µĞ´ÄÑ•áĞµÍ´Ñ•áĞµ¥¹¬µÍ½™ĞˆùíÌ¹­¥¹€ôôô€‰‰…‰äˆ€ü€‹’êë–B4ˆ€è€‹–¶_–>Ü‰ôƒ
-ÜíÌ¹¹½Ñ•ôğ½Àø4(€€€€€€€€€€€€€€€€ğ½‘¥Øø4(€€€€€€€€€€€€€€€€ñ‰ÕÑÑ½¸ÑåÁ”ô‰‰ÕÑÑ½¸ˆ±…ÍÍ9…µ”ô‰µ¥¸µ ´ÄÄÍ¡É¥¹¬´ÀÑ•áĞµÍ´Ñ•áĞµµÕÑ•ˆ½¹±¥¬õì ¤€ôø™½É•Ğ¡Ì¹¥¥ôø4(€€€€€€€€€€€€€€€€€ƒï¦f4(€€€€€€€€€€€€€€€€ğ½‰ÕÑÑ½¸ø4(€€€€€€€€€€€€€€ğ½…ÉÑ¥±”ø4(€€€€€€€€€€€€¤¤4(€€€€€€€€€€¥ô4(€€€€€€€€ğ½Í•Ñ¥½¸ø4(€€€€€€¤€è¹Õ±±ô4(4(€€€€€€ñ™½½Ñ•È±…ÍÍ9…µ”ô‰µĞ´ÄÀÑ•áĞµáÌ±•…‘¥¹œµÉ•±…á•Ñ•áĞµµÕÑ•ˆø(€€€€€€€ƒ¦^»¦OR£¢*šÂSš:K–¯–¶_¾ò3R£–ZsR£–{–ºk’êS¢†3¾ò3R£–æÏ’îr/¦~Ï–ú/¾ò3R£–êßg²SRïº_’êSš‚ó’êSš‚óšVÃBšb¿–O–B7–¶›’òƒî¾ò3–J3–¯–¶_’â7šb¿–B3’â––_–¶›¦^»¾ò3’â“–"_–¾çŸ–6Ï–>¿¾ò3’â7–ş–òë¢†3–B#š"C’â’â«–"šVÃ4(€€€€€€ğ½™½½Ñ•Èø4(€€€€ğ½µ…¥¸ø4(€€¤ì4)ô4(
+  year: string; month: string; day: string; hour: string; gender: Gender; longitude: string;
+  setYear: (v: string) => void;
+  setMonth: (v: string) => void;
+  setDay: (v: string) => void;
+  setHour: (v: string) => void;
+  setGender: (v: Gender) => void;
+  setLongitude: (v: string) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <Chip on={gender === "m"} onClick={() => setGender("m")}>ç”·</Chip>
+        <Chip on={gender === "f"} onClick={() => setGender("f")}>å¥³</Chip>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        <select className={control} value={year} onChange={(e) => setYear(e.target.value)} aria-label="å¹´">
+          <option value="">å¹´</option>
+          {YEARS.map((y) => (
+            <option key={y} value={y}>{y}</option>
+          ))}
+        </select>
+        <select className={control} value={month} onChange={(e) => setMonth(e.target.value)} aria-label="æœˆ">
+          <option value="">æœˆ</option>
+          {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+            <option key={m} value={m}>{m} æœˆ</option>
+          ))}
+        </select>
+        <select className={control} value={day} onChange={(e) => setDay(e.target.value)} aria-label="æ—¥">
+          <option value="">æ—¥</option>
+          {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+            <option key={d} value={d}>{d} æ—¥</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <div className="mb-2 text-sm font-medium text-ink-soft">æ—¶è¾°</div>
+        <div className="grid grid-cols-4 gap-2">
+          {HOURS.map((h) => (
+            <button
+              key={h.id}
+              type="button"
+              aria-pressed={hour === h.id}
+              onClick={() => setHour(h.id)}
+              className={cn(
+                "min-h-11 rounded-sm border px-1 text-sm",
+                hour === h.id ? "border-ink bg-ink text-paper-3" : "border-line bg-paper-3 text-ink",
+              )}
+            >
+              <span className="block font-serif">{h.name}</span>
+              <span className="block text-xs opacity-80">{h.range}</span>
+            </button>
+          ))}
+          <button
+            type="button"
+            aria-pressed={hour === ""}
+            onClick={() => setHour("")}
+            className={cn(
+              "min-h-11 rounded-sm border px-1 text-sm",
+              hour === "" ? "border-ink bg-ink text-paper-3" : "border-line bg-paper-3 text-ink",
+            )}
+          >
+            æœªçŸ¥
+          </button>
+        </div>
+        <p className="mt-2 text-xs leading-relaxed text-muted">å¤œé‡Œ 23 ç‚¹åˆ° 24 ç‚¹ï¼Œæ—¥æœŸé€‰æ¬¡æ—¥ï¼Œæ—¶è¾°é€‰å­ã€‚æ’ç›˜ä»¥èŠ‚æ°”æ¢å¹´æœˆï¼Œä¸ä»¥æ­£æœˆåˆä¸€ã€‚</p>
+      </div>
+      <Field label="å‡ºç”Ÿåœ°ç»åº¦ï¼Œå¯ç©º">
+        <input
+          className={control}
+          type="number"
+          inputMode="decimal"
+          min="-180"
+          max="180"
+          step="0.01"
+          value={longitude}
+          placeholder="ä¾‹å¦‚ 121.5"
+          onChange={(e) => setLongitude(e.target.value)}
+        />
+        <p className="mt-2 text-xs leading-relaxed text-muted">ç”¨äºæ ¡æ­£çœŸå¤ªé˜³æ—¶ã€‚ä¸œç»å¡«æ­£æ•°ï¼Œè¥¿ç»å¡«è´Ÿæ•°ï¼›ä¸å¡«åˆ™æŒ‰æ ‡å‡†æ—¶é—´æ’ç›˜ã€‚</p>
+      </Field>
+    </div>
+  );
+}
+
+function ElPicker({ value, onChange }: { value: El[] | null; onChange: (v: El[] | null) => void }) {
+  const selected = value ?? [];
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-sm font-medium text-ink-soft">æŒ‡å®šäº”è¡Œ</span>
+        <button type="button" className="text-sm text-cinnabar" onClick={() => onChange(null)}>
+          æŒ‰å–œç”¨
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {ELS.map((el) => (
+          <Chip
+            key={el}
+            on={selected.includes(el)}
+            onClick={() => {
+              const has = selected.includes(el);
+              const next = has ? selected.filter((x) => x !== el) : [...selected, el];
+              onChange(next.length ? next : null);
+            }}
+          >
+            {el}
+          </Chip>
+        ))}
+      </div>
+      <p className="mt-2 text-xs text-muted">{value ? "å·²æ”¹ç”¨æ‰‹é€‰äº”è¡Œï¼Œä¸å†æŒ‰æ‰€ç¼ºæ¥è¡¥ã€‚" : "ä¸é€‰åˆ™è¡¥å››æŸ±å’Œå§“é‡Œåç¼ºçš„äº”è¡Œã€‚"}</p>
+    </div>
+  );
+}
+
+function ChartRead({ chart }: { chart: Chart }) {
+  return (
+    <div className="space-y-4">
+      <Pillars chart={chart} />
+      <p className="text-sm text-muted">
+        å†œå† {chart.lunar} Â· ç”Ÿè‚– {chart.zodiac} Â· {chart.dayGan}{chart.dayEl} Â· {chart.strength}
+      </p>
+      <p className="text-xs leading-relaxed text-muted">
+        æ ‡å‡†æ—¶é—´ {chart.solarTime} Â· çœŸå¤ªé˜³æ—¶ {chart.trueSolarTime}{!chart.hourKnown ? "ï¼ˆæ—¶è¾°æœªçŸ¥ï¼‰" : chart.longitude === null ? "ï¼ˆæœªæ ¡æ­£ï¼‰" : `ï¼ˆå·²æ ¡æ­£ ${chart.trueSolarOffset >= 0 ? "+" : ""}${chart.trueSolarOffset} åˆ†é’Ÿï¼‰`}
+      </p>
+      <Bars chart={chart} />
+      <p className="text-sm leading-relaxed text-ink-soft">{chart.summary}</p>
+      <p className="text-sm leading-relaxed text-ink-soft">{chart.yongText}</p>
+      <ChartAux chart={chart} />
+      <ShenShaRead chart={chart} />
+      <div>
+        <h3 className="font-serif text-lg">è¿åŠ¿</h3>
+        <p className="mt-2 text-sm leading-relaxed text-ink-soft">{chart.startText}</p>
+        <p className="mt-2 text-sm leading-relaxed text-ink-soft">{chart.yearText}</p>
+      </div>
+      {chart.daYun.length ? (
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {chart.daYun.map((d) => {
+            const on = chart.currentYun?.ganZhi === d.ganZhi && chart.currentYun.startYear === d.startYear;
+            return (
+              <div
+                key={`${d.ganZhi}-${d.startYear}`}
+                className={cn(
+                  "min-w-24 shrink-0 rounded-md border px-3 py-2 text-sm",
+                  on ? "border-cinnabar bg-paper" : "border-line bg-paper",
+                )}
+              >
+                <div className="font-serif text-lg">{d.ganZhi}</div>
+                <div className="text-xs tabular-nums text-muted">
+                  {d.startYear}â€“{d.endYear}
+                </div>
+                <div className="text-xs text-muted">{d.startAge} å²èµ·</div>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
+      <LiuNianRead chart={chart} />
+      <LiuYueRead chart={chart} />
+      <ChartBasis chart={chart} />
+    </div>
+  );
+}
+
+export function Studio() {
+  const [tab, setTab] = useState<Tab>("name");
+  const [mode, setMode] = useState<Mode>("baby");
+  const [surname, setSurname] = useState("");
+  const [gender, setGender] = useState<Gender>("f");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [hour, setHour] = useState("10");
+  const [longitude, setLongitude] = useState("");
+  const [givenLen, setGivenLen] = useState<1 | 2>(2);
+  const [style, setStyle] = useState<StyleId>("æ¸…é›…");
+  const [generation, setGeneration] = useState("");
+  const [generationPos, setGenerationPos] = useState<"front" | "back">("front");
+  const [avoid, setAvoid] = useState("");
+  const [preferred, setPreferred] = useState<El[] | null>(null);
+  const [babyOut, setBabyOut] = useState<NameResult | null>(null);
+
+  const [industryId, setIndustryId] = useState("tech");
+  const [brandStyle, setBrandStyle] = useState<StyleId>("å¤§æ°”");
+  const [brandAvoid, setBrandAvoid] = useState("");
+  const [include, setInclude] = useState("");
+  const [withSuffix, setWithSuffix] = useState(false);
+  const [useFounder, setUseFounder] = useState(false);
+  const [fYear, setFYear] = useState("");
+  const [fMonth, setFMonth] = useState("");
+  const [fDay, setFDay] = useState("");
+  const [fHour, setFHour] = useState("");
+  const [fLongitude, setFLongitude] = useState("");
+  const [fGender, setFGender] = useState<Gender>("m");
+  const [brandPref, setBrandPref] = useState<El[] | null>(null);
+  const [brandOut, setBrandOut] = useState<NameResult | null>(null);
+
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [saved, setSaved] = useState<SavedName[]>([]);
+  const [query, setQuery] = useState("");
+  const [lexEl, setLexEl] = useState<El | "å…¨éƒ¨">("å…¨éƒ¨");
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setSaved(loadSaved());
+  }, []);
+
+  useEffect(() => {
+    if (!babyOut?.ideas.length && !brandOut?.ideas.length) return;
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [babyOut, brandOut]);
+
+  const surnameInfo = useMemo(() => {
+    const parsed = parseSurname(surname);
+    return "error" in parsed ? null : parsed;
+  }, [surname]);
+
+  const birthReady = validDate(Number(year), Number(month), Number(day));
+  const liveChart = useMemo(() => {
+    if (!birthReady) return null;
+    return buildChart({
+      year: Number(year),
+      month: Number(month),
+      day: Number(day),
+      hour: hour === "" ? null : Number(hour),
+      longitude: parseLongitude(longitude),
+      gender,
+    });
+  }, [birthReady, year, month, day, hour, longitude, gender]);
+  const combinedLack = useMemo(() => {
+    if (!liveChart) return [] as El[];
+    if (!surnameInfo) return liveChart.lack;
+    return lackElements(addElements(liveChart.counts, surnameInfo.els));
+  }, [liveChart, surnameInfo]);
+
+  function remember(idea: NameIdea) {
+    setSaved((prev) => {
+      if (prev.some((s) => s.full === idea.full && s.kind === idea.kind)) return prev;
+      const next: SavedName[] = [
+        {
+          id: `${idea.kind}-${idea.full}`,
+          full: idea.full,
+          pinyin: idea.pinyin,
+          score: idea.score,
+          kind: idea.kind,
+          note: idea.reasons[0] ?? "",
+          at: Date.now(),
+        },
+        ...prev,
+      ].slice(0, 40);
+      writeSaved(next);
+      return next;
+    });
+  }
+
+  function forget(id: string) {
+    setSaved((prev) => {
+      const next = prev.filter((s) => s.id !== id);
+      writeSaved(next);
+      return next;
+    });
+  }
+
+  function runBaby(batch = 0) {
+    const out = generateBaby({
+      surname,
+      gender,
+      year: Number(year),
+      month: Number(month),
+      day: Number(day),
+      hour: hour === "" ? null : Number(hour),
+      longitude: parseLongitude(longitude),
+      givenLen,
+      style,
+      generation,
+      generationPos,
+      avoid,
+      preferred,
+      batch,
+    });
+    setBabyOut(out);
+    setOpenId(out.ideas[0]?.id ?? null);
+  }
+
+  function runCompany(batch = 0) {
+    const founderReady = useFounder && validDate(Number(fYear), Number(fMonth), Number(fDay));
+    const out = generateCompany({
+      industryId,
+      style: brandStyle,
+      avoid: brandAvoid,
+      withSuffix,
+      include,
+      preferred: brandPref,
+      batch,
+      founder: founderReady
+        ? {
+            year: Number(fYear),
+            month: Number(fMonth),
+            day: Number(fDay),
+            hour: fHour === "" ? null : Number(fHour),
+            longitude: parseLongitude(fLongitude),
+            gender: fGender,
+          }
+        : null,
+    });
+    setBrandOut(out);
+    setOpenId(out.ideas[0]?.id ?? null);
+  }
+
+  function fillSample() {
+    setMode("baby");
+    setSurname("æ—");
+    setGender("f");
+    setYear("2024");
+    setMonth("4");
+    setDay("12");
+    setHour("10");
+    setGivenLen(2);
+    setStyle("æ¸…é›…");
+    setGeneration("");
+    setAvoid("");
+    setPreferred(null);
+  }
+
+  const ideas = mode === "baby" ? babyOut?.ideas ?? [] : brandOut?.ideas ?? [];
+  const activeOut = mode === "baby" ? babyOut : brandOut;
+  const lex = useMemo(() => searchGlyphs(query, lexEl), [query, lexEl]);
+
+  return (
+    <main className="mx-auto min-h-screen max-w-3xl px-4 pb-16 pt-6">
+      <header className="flex items-start gap-3">
+        <Seal />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-3">
+            <h1 className="font-serif text-3xl leading-none tracking-tight">é—®é“</h1>
+            <Link to="/" className="shrink-0 text-sm text-ink-soft">
+              é¦–é¡µ
+            </Link>
+          </div>
+          <p className="mt-2 text-sm text-ink-soft">ç”Ÿè¾°å–å Â· å…¬å¸èµ·å</p>
+        </div>
+      </header>
+      <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft">
+        å…ˆçœ‹å››æŸ±ï¼Œå†è¡¡å­—ã€‚å–œç”¨ã€éŸ³å¾‹ã€å­—ä¹‰ä¸ã€Šåº·ç†™å­—å…¸ã€‹ç¬”ç”»æ”¾åœ¨åŒä¸€å¼ çº¸ä¸Šã€‚è¿™æ˜¯ä¼ ç»Ÿå–åçš„å‚ç…§ï¼Œä¸æ˜¯å‘½è¿çš„ç»“è®ºã€‚
+      </p>
+
+      <nav className="mt-5 grid grid-cols-4 gap-1 rounded-lg bg-paper-2 p-1" aria-label="åˆ†æ ">
+        {(
+          [
+            ["name", "å–å"],
+            ["chart", "å…«å­—"],
+            ["lex", "å­—åº“"],
+            ["saved", "åå†Œ"],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            className={cn(
+              "min-h-11 rounded-md text-sm",
+              tab === id ? "bg-paper-3 text-ink" : "text-ink-soft",
+            )}
+          >
+            {label}
+            {id === "saved" && saved.length ? <span className="ml-1 tabular-nums text-muted">{saved.length}</span> : null}
+          </button>
+        ))}
+      </nav>
+
+      {tab === "name" ? (
+        <section className="mt-5 space-y-4">
+          <div className="flex gap-2">
+            <Chip on={mode === "baby"} onClick={() => setMode("baby")}>æ–°ç”Ÿå„¿</Chip>
+            <Chip on={mode === "company"} onClick={() => setMode("company")}>å…¬å¸</Chip>
+            <button type="button" className="min-h-11 px-2 text-sm text-muted" onClick={fillSample}>
+              å¡«ä¸€ä¸ªä¾‹å­
+            </button>
+          </div>
+
+          {mode === "baby" ? (
+            <div className="space-y-5 rounded-xl border border-line bg-paper-3 p-5">
+              <Field label="å§“">
+                <input className={control} value={surname} maxLength={2} placeholder="æ—ï¼Œæˆ–æ¬§é˜³" onChange={(e) => setSurname(e.target.value)} />
+              </Field>
+              <BirthFields
+                year={year} month={month} day={day} hour={hour} gender={gender} longitude={longitude}
+                setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setGender={setGender} setLongitude={setLongitude}
+              />
+              {liveChart ? (
+                <p className="text-sm leading-relaxed text-ink-soft">
+                  {liveChart.pillars.filter((p) => p.known).map((p) => `${p.gan}${p.zhi}`).join(" ")} Â· {liveChart.strength}
+                  {" Â· "}
+                  å››æŸ±{liveChart.lack.length ? `ç¼º${liveChart.lack.join("ã€")}` : "æ— æ˜æ˜¾æ‰€ç¼º"}
+                  {surnameInfo ? ` Â· å§“å±${surnameInfo.els.join("ã€") || "æœªå…¥å­—åº“"}` : ""}
+                  {surnameInfo
+                    ? combinedLack.length
+                      ? ` Â· åˆèµ·æ¥å®œè¡¥${combinedLack.join("ã€")}`
+                      : " Â· åˆèµ·æ¥äº”è¡Œæ¯”è¾ƒé½"
+                    : ""}
+                </p>
+              ) : null}
+              <div>
+                <div className="mb-2 text-sm font-medium text-ink-soft">åå­—å­—æ•°</div>
+                <div className="flex gap-2">
+                  <Chip on={givenLen === 2} onClick={() => setGivenLen(2)}>åŒå­—</Chip>
+                  <Chip on={givenLen === 1} onClick={() => setGivenLen(1)}>å•å­—</Chip>
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 text-sm font-medium text-ink-soft">æ°”è´¨</div>
+                <div className="flex flex-wrap gap-2">
+                  {STYLES.map((s) => (
+                    <Chip key={s} on={style === s} onClick={() => setStyle(s)}>{s}</Chip>
+                  ))}
+                </div>
+              </div>
+              <ElPicker value={preferred} onChange={setPreferred} />
+              {givenLen === 2 ? (
+                <div className="grid grid-cols-[1fr_auto] gap-2">
+                  <Field label="è¾ˆåˆ†å­—ï¼Œå¯ç©º">
+                    <input className={control} value={generation} maxLength={1} onChange={(e) => setGeneration(e.target.value)} />
+                  </Field>
+                  <div>
+                    <div className="mb-2 text-sm font-medium text-ink-soft">ä½ç½®</div>
+                    <div className="flex gap-2">
+                      <Chip on={generationPos === "front"} onClick={() => setGenerationPos("front")}>å‰</Chip>
+                      <Chip on={generationPos === "back"} onClick={() => setGenerationPos("back")}>å</Chip>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <Field label="é¿å¼€çš„å­—">
+                <input className={control} value={avoid} placeholder="ä¸å¿…å¤šï¼Œå†™è¦èº²å¼€çš„" onChange={(e) => setAvoid(e.target.value)} />
+              </Field>
+              <button type="button" onClick={() => runBaby()} className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm">
+                è¡¡å
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-5 rounded-xl border border-line bg-paper-3 p-5">
+              <Field label="è¡Œä¸š">
+                <select className={control} value={industryId} onChange={(e) => setIndustryId(e.target.value)}>
+                  {INDUSTRIES.map((i) => (
+                    <option key={i.id} value={i.id}>{i.name}</option>
+                  ))}
+                </select>
+              </Field>
+              <p className="text-sm text-ink-soft">{INDUSTRIES.find((i) => i.id === industryId)?.note}</p>
+              <div>
+                <div className="mb-2 text-sm font-medium text-ink-soft">æ°”è´¨</div>
+                <div className="flex flex-wrap gap-2">
+                  {STYLES.map((s) => (
+                    <Chip key={s} on={brandStyle === s} onClick={() => setBrandStyle(s)}>{s}</Chip>
+                  ))}
+                </div>
+              </div>
+              <ElPicker value={brandPref} onChange={setBrandPref} />
+              <Field label="æƒ³ç”¨çš„ä¸€ä¸ªå­—ï¼Œå¯ç©º">
+                <input className={control} value={include} maxLength={1} onChange={(e) => setInclude(e.target.value)} />
+              </Field>
+              <Field label="é¿å¼€çš„å­—">
+                <input className={control} value={brandAvoid} onChange={(e) => setBrandAvoid(e.target.value)} />
+              </Field>
+              <Chip on={withSuffix} onClick={() => setWithSuffix((v) => !v)}>é™„è¡Œä¸šè¯</Chip>
+              <Chip on={useFounder} onClick={() => setUseFounder((v) => !v)}>æŒ‰åˆ›åŠäººç”Ÿè¾°</Chip>
+              {useFounder ? (
+                <BirthFields
+                  year={fYear} month={fMonth} day={fDay} hour={fHour} gender={fGender} longitude={fLongitude}
+                  setYear={setFYear} setMonth={setFMonth} setDay={setFDay} setHour={setFHour} setGender={setFGender} setLongitude={setFLongitude}
+                />
+              ) : null}
+              <button type="button" onClick={() => runCompany()} className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm">
+                è¡¡å­—å·
+              </button>
+            </div>
+          )}
+
+          {activeOut?.error ? <p className="text-sm text-cinnabar">{activeOut.error}</p> : null}
+          {activeOut?.diagnosis ? (
+            <div className="rounded-xl border border-line bg-paper-3 p-5">
+              <h2 className="font-serif text-xl">äº”è¡Œæ‰€ç¼º</h2>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{activeOut.diagnosis}</p>
+            </div>
+          ) : null}
+          {activeOut?.note ? <p className="text-sm text-muted">{activeOut.note}</p> : null}
+          <div ref={listRef} className="space-y-3">
+            {ideas.map((idea) => (
+              <NameCard
+                key={idea.id}
+                idea={idea}
+                open={openId === idea.id}
+                saved={saved.some((s) => s.full === idea.full && s.kind === idea.kind)}
+                onOpen={() => setOpenId((id) => (id === idea.id ? null : idea.id))}
+                onSave={() => remember(idea)}
+              />
+            ))}
+          </div>
+          {activeOut && activeOut.pages > 1 ? (
+            <button
+              type="button"
+              className="h-12 w-full rounded-sm border border-line bg-paper-3 text-ink"
+              onClick={() => (mode === "baby" ? runBaby(activeOut.page + 1) : runCompany(activeOut.page + 1))}
+            >
+              å†è¡¡ä¸€æ‰¹
+              <span className="ml-2 tabular-nums text-muted">
+                {activeOut.page + 1}/{activeOut.pages}
+              </span>
+            </button>
+          ) : null}
+          {activeOut?.chart && mode === "baby" ? (
+            <div className="rounded-xl border border-line bg-paper-3 p-5">
+              <h2 className="font-serif text-xl">è¿™å¼ ç›˜</h2>
+              <div className="mt-3">
+                <ChartRead chart={activeOut.chart} />
+              </div>
+            </div>
+          ) : null}
+          {activeOut?.chart && mode === "company" ? (
+            <div className="rounded-xl border border-line bg-paper-3 p-5">
+              <h2 className="font-serif text-xl">åˆ›åŠäºº</h2>
+              <div className="mt-3">
+                <ChartRead chart={activeOut.chart} />
+              </div>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
+      {tab === "chart" ? (
+        <section className="mt-5 space-y-4 rounded-xl border border-line bg-paper-3 p-5">
+          <h2 className="font-serif text-xl">çœ‹å…«å­—</h2>
+          <BirthFields
+            year={year} month={month} day={day} hour={hour} gender={gender} longitude={longitude}
+            setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setGender={setGender} setLongitude={setLongitude}
+          />
+          {liveChart ? <ChartRead chart={liveChart} /> : <p className="text-sm text-muted">é€‰å¥½å¹´æœˆæ—¥ï¼Œå››æŸ±ä¼šåœ¨è¿™é‡Œæ’å¼€ã€‚</p>}
+          <button
+            type="button"
+            className="h-12 w-full rounded-sm bg-cinnabar font-medium text-cinnabar-ink"
+            onClick={() => {
+              setMode("baby");
+              setTab("name");
+            }}
+          >
+            ç”¨è¿™å¼ ç›˜å–å
+          </button>
+        </section>
+      ) : null}
+
+      {tab === "lex" ? (
+        <section className="mt-5 space-y-4">
+          <Field label="æŸ¥å­—">
+            <input
+              className={control}
+              value={query}
+              placeholder="ä¸€ä¸ªå­—ï¼Œæˆ–æ‹¼éŸ³"
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </Field>
+          <div className="flex flex-wrap gap-2">
+            <Chip on={lexEl === "å…¨éƒ¨"} onClick={() => setLexEl("å…¨éƒ¨")}>å…¨éƒ¨</Chip>
+            {ELS.map((el) => (
+              <Chip key={el} on={lexEl === el} onClick={() => setLexEl(el)}>{el}</Chip>
+            ))}
+          </div>
+          <p className="text-xs leading-relaxed text-muted">
+            ç¬”ç”»æŒ‰ã€Šåº·ç†™å­—å…¸ã€‹ç¹ä½“å£å¾„ï¼Œæ°µä½œæ°´ã€è‰¹ä½œè‰¸ï¼Œæ‰€ä»¥å¸¸å’Œç®€ä½“æ‰‹å†™ç¬”ç”»ä¸åŒã€‚äº”è¡Œæ˜¯å–åç”¨çš„ä¼ ç»Ÿå½’ç±»ï¼Œä¸æ˜¯å­—ä¹‰æœ¬èº«ã€‚
+          </p>
+          <ul className="space-y-2">
+            {lex.map((g) => {
+              const named = lookupName(g.c);
+              return (
+                <li key={g.c} className="rounded-lg border border-line bg-paper-3 px-4 py-3">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="font-serif text-2xl">{g.c}</span>
+                    <span className="text-sm text-muted">{toneMark(g.py, g.tone)}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-ink-soft">
+                    <ElText el={g.el} /> Â· {g.rad || "â€”"}éƒ¨ Â· åº·ç†™ {g.st} ç”»
+                    {g.trad !== g.c ? ` Â· ç¹ä½“ ${g.trad}` : ""}
+                  </p>
+                  {named ? <p className="mt-1 text-sm text-ink-soft">{named.gloss}</p> : null}
+                </li>
+              );
+            })}
+          </ul>
+          {!query && lexEl === "å…¨éƒ¨" ? (
+            <p className="text-sm text-muted">å…ˆè¾“å…¥è¦æŸ¥çš„å­—ã€‚ä¸è¾“å…¥æ—¶ï¼Œåªéœ²å‡ºè¿™ä¸€è¡Œäº”è¡Œé‡Œçš„å‰ä¸€æ‰¹ã€‚</p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {tab === "saved" ? (
+        <section className="mt-5 space-y-3">
+          {saved.length === 0 ? (
+            <p className="rounded-xl border border-line bg-paper-3 p-5 text-sm text-ink-soft">
+              åå†Œè¿˜ç©ºç€ã€‚åœ¨åå­—ä¸Šç‚¹ã€Œæ”¶ä¸‹ã€ï¼Œè®°åœ¨è¿™å°è®¾å¤‡é‡Œï¼Œä¸ä¸Šä¼ ã€‚
+            </p>
+          ) : (
+            saved.map((s) => (
+              <article key={s.id} className="flex items-start justify-between gap-3 rounded-xl border border-line bg-paper-3 p-5">
+                <div>
+                  <h3 className="font-serif text-2xl">{s.full}</h3>
+                  <p className="mt-1 text-sm text-muted">{s.pinyin}</p>
+                  <p className="mt-1 text-sm text-ink-soft">{s.kind === "baby" ? "äººå" : "å­—å·"} Â· {s.note}</p>
+                </div>
+                <button type="button" className="min-h-11 shrink-0 text-sm text-muted" onClick={() => forget(s.id)}>
+                  ç§»é™¤
+                </button>
+              </article>
+            ))
+          )}
+        </section>
+      ) : null}
+
+      <footer className="mt-10 text-xs leading-relaxed text-muted">
+        é—®é“ç”¨èŠ‚æ°”æ’å…«å­—ï¼Œç”¨å–œç”¨ç¥å®šäº”è¡Œï¼Œç”¨å¹³ä»„çœ‹éŸ³å¾‹ï¼Œç”¨åº·ç†™ç¬”ç”»ç®—äº”æ ¼ã€‚äº”æ ¼æ•°ç†æ˜¯å§“åå­¦ä¼ ç»Ÿï¼Œå’Œå…«å­—ä¸æ˜¯åŒä¸€å¥—å­¦é—®ï¼Œä¸¤åˆ—å¯¹ç…§å³å¯ï¼Œä¸å¿…å¼ºè¡Œåˆæˆä¸€ä¸ªåˆ†æ•°ã€‚
+      </footer>
+    </main>
+  );
+}
