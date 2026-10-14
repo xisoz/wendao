@@ -22,10 +22,25 @@ page.on("console", (message) => {
 page.on("pageerror", (error) => pageErrors.push(String(error)));
 
 try {
-  const response = await page.goto(`${baseUrl}/name`, {
+  const homeResponse = await page.goto(`${baseUrl}/`, {
     waitUntil: "networkidle",
     timeout: 30_000,
   });
+  const homeGeometry = await page.evaluate(() => ({
+    viewportWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  await page.screenshot({ path: resolve(artifacts, "wendao-mobile-home.png") });
+  await page.screenshot({
+    path: resolve(artifacts, "wendao-mobile-home-full.png"),
+    fullPage: true,
+  });
+
+  const nameResponse = await page.goto(`${baseUrl}/name`, {
+    waitUntil: "networkidle",
+    timeout: 30_000,
+  });
+  await page.screenshot({ path: resolve(artifacts, "wendao-mobile-name-form.png") });
   await page.getByRole("button", { name: "填一个例子" }).click();
   await page.waitForFunction(
     () => document.querySelector('input[placeholder="林，或欧阳"]')?.value === "林",
@@ -70,23 +85,53 @@ try {
         : null,
     };
   });
+  const babyResultCards = await page.getByText("综合衡分", { exact: true }).count();
+  const source = await panel
+    .locator("span")
+    .filter({ hasText: /^(本地规则|AI解读)/ })
+    .first()
+    .innerText();
+
+  const companyResponse = await page.goto(`${baseUrl}/name`, {
+    waitUntil: "networkidle",
+    timeout: 30_000,
+  });
+  await page.getByRole("button", { name: "公司", exact: true }).click();
+  await page.getByText("行业", { exact: true }).first().waitFor();
+  const companyLengthControls = await page
+    .getByRole("button", { name: /^(两字|三字|四字)$/ })
+    .count();
+  await page.screenshot({ path: resolve(artifacts, "wendao-mobile-company-form.png") });
+  await page.getByRole("button", { name: "衡字号", exact: true }).click();
+  const companyScoreLabel = page.getByText("综合衡分", { exact: true }).first();
+  await companyScoreLabel.waitFor({ timeout: 15_000 });
+  const companyResultCards = await page.getByText("综合衡分", { exact: true }).count();
+  await companyScoreLabel.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: resolve(artifacts, "wendao-mobile-company-results.png") });
 
   const verdict = {
     ok:
-      response?.status() === 200 &&
+      homeResponse?.status() === 200 &&
+      nameResponse?.status() === 200 &&
+      companyResponse?.status() === 200 &&
+      homeGeometry.scrollWidth <= homeGeometry.viewportWidth + 1 &&
       geometry.scrollWidth <= geometry.viewportWidth + 1 &&
       geometry.panel !== null &&
       Math.abs(geometry.panel.left - geometry.panel.right) <= 1 &&
+      babyResultCards > 0 &&
+      companyResultCards > 0 &&
+      companyLengthControls === 0 &&
       consoleErrors.length === 0 &&
       pageErrors.length === 0,
-    status: response?.status() ?? 0,
-    resultCards: await page.getByText("综合衡分", { exact: true }).count(),
-    source: await panel
-      .locator("span")
-      .filter({ hasText: /^(本地规则|AI解读)/ })
-      .first()
-      .innerText(),
-    geometry,
+    status: {
+      home: homeResponse?.status() ?? 0,
+      name: nameResponse?.status() ?? 0,
+      company: companyResponse?.status() ?? 0,
+    },
+    resultCards: { baby: babyResultCards, company: companyResultCards },
+    companyLengthControls,
+    source,
+    geometry: { home: homeGeometry, result: geometry },
     consoleErrors,
     pageErrors,
   };

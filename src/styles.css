@@ -15,7 +15,9 @@
   --color-earth: #8a6a3b;
   --color-metal: #7a6548;
   --color-water: #2c4a5e;
-  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "OPPOSans", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", sans-serif;
+  --font-sans:
+    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "OPPOSans", "Microsoft YaHei", "Noto Sans SC",
+    "Source Han Sans SC", sans-serif;
   --font-serif: "Songti SC", "Source Han Serif SC", "Noto Serif SC", "STSong", "SimSun", serif;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -34,7 +36,9 @@
     font-family: var(--font-sans);
     text-wrap: pretty;
   }
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     text-wrap: balance;
     font-family: var(--font-serif);
   }
@@ -100,7 +104,11 @@
   .primary-button,
   .secondary-button,
   .card-link {
-    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
   }
 
   .brand-link:hover,
@@ -231,7 +239,10 @@
   .audience-card,
   .process-item,
   .gallery-card {
-    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
   }
 
   .audience-card:hover,
@@ -284,18 +295,37 @@
   }
 
   .element-panel {
-    background: linear-gradient(135deg, var(--color-paper-3), color-mix(in srgb, var(--color-paper-2) 48%, var(--color-paper-3)));
+    background: linear-gradient(
+      135deg,
+      var(--color-paper-3),
+      color-mix(in srgb, var(--color-paper-2) 48%, var(--color-paper-3))
+    );
   }
 
   .element-pill {
     background: color-mix(in srgb, var(--color-paper-3) 72%, transparent);
   }
 
-  .element-wood { border-color: color-mix(in srgb, var(--color-wood) 35%, var(--color-line)); color: var(--color-wood); }
-  .element-fire { border-color: color-mix(in srgb, var(--color-fire) 35%, var(--color-line)); color: var(--color-fire); }
-  .element-earth { border-color: color-mix(in srgb, var(--color-earth) 35%, var(--color-line)); color: var(--color-earth); }
-  .element-metal { border-color: color-mix(in srgb, var(--color-metal) 35%, var(--color-line)); color: var(--color-metal); }
-  .element-water { border-color: color-mix(in srgb, var(--color-water) 35%, var(--color-line)); color: var(--color-water); }
+  .element-wood {
+    border-color: color-mix(in srgb, var(--color-wood) 35%, var(--color-line));
+    color: var(--color-wood);
+  }
+  .element-fire {
+    border-color: color-mix(in srgb, var(--color-fire) 35%, var(--color-line));
+    color: var(--color-fire);
+  }
+  .element-earth {
+    border-color: color-mix(in srgb, var(--color-earth) 35%, var(--color-line));
+    color: var(--color-earth);
+  }
+  .element-metal {
+    border-color: color-mix(in srgb, var(--color-metal) 35%, var(--color-line));
+    color: var(--color-metal);
+  }
+  .element-water {
+    border-color: color-mix(in srgb, var(--color-water) 35%, var(--color-line));
+    color: var(--color-water);
+  }
 
   .closing-cta {
     position: relative;
@@ -313,7 +343,9 @@
     height: 16rem;
     border: 1px solid rgba(247, 243, 236, 0.16);
     border-radius: 50%;
-    box-shadow: 0 0 0 2rem rgba(247, 243, 236, 0.04), 0 0 0 4rem rgba(247, 243, 236, 0.03);
+    box-shadow:
+      0 0 0 2rem rgba(247, 243, 236, 0.04),
+      0 0 0 4rem rgba(247, 243, 236, 0.03);
     content: "";
   }
 }
@@ -391,7 +423,11 @@
   .landing-primary-button,
   .landing-ghost-button,
   .landing-nav a {
-    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
   }
 
   .landing-brand:hover,
@@ -486,6 +522,10 @@
     font-style: normal;
   }
 
+  .landing-mobile-break {
+    display: none;
+  }
+
   .landing-hero-text {
     color: rgba(247, 243, 236, 0.72);
     font-size: 0.95rem;
@@ -536,7 +576,9 @@
     position: absolute;
     inset: 0;
     opacity: 0.22;
-    background-image: linear-gradient(rgba(247, 243, 236, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(247, 243, 236, 0.15) 1px, transparent 1px);
+    background-image:
+      linear-gradient(rgba(247, 243, 236, 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247, 243, 236, 0.15) 1px, transparent 1px);
     background-size: 2rem 2rem;
     content: "";
     mask-image: linear-gradient(135deg, black, transparent 75%);
@@ -659,7 +701,10 @@
 
   .criteria-card,
   .example-card {
-    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+    transition:
+      transform 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
   }
 
   .criteria-card:hover,
@@ -727,7 +772,9 @@
     height: 15rem;
     border: 1px solid color-mix(in srgb, var(--color-cinnabar) 28%, transparent);
     border-radius: 50%;
-    box-shadow: 0 0 0 1.5rem color-mix(in srgb, var(--color-cinnabar) 10%, transparent), 0 0 0 3rem color-mix(in srgb, var(--color-cinnabar) 6%, transparent);
+    box-shadow:
+      0 0 0 1.5rem color-mix(in srgb, var(--color-cinnabar) 10%, transparent),
+      0 0 0 3rem color-mix(in srgb, var(--color-cinnabar) 6%, transparent);
     content: "";
   }
 
@@ -773,7 +820,9 @@
     height: 18rem;
     border: 1px solid rgba(247, 243, 236, 0.16);
     border-radius: 50%;
-    box-shadow: 0 0 0 2rem rgba(247, 243, 236, 0.04), 0 0 0 4rem rgba(247, 243, 236, 0.03);
+    box-shadow:
+      0 0 0 2rem rgba(247, 243, 236, 0.04),
+      0 0 0 4rem rgba(247, 243, 236, 0.03);
     content: "";
   }
 
@@ -869,6 +918,10 @@
 
   .landing-title {
     font-size: clamp(3.05rem, 15vw, 4rem);
+  }
+
+  .landing-mobile-break {
+    display: block;
   }
 
   .name-paper {

@@ -36,13 +36,12 @@ for (let y = 2026; y >= 1940; y--) YEARS.push(y);
 
 function Seal() {
   return (
-    <img
-      src="/app-icon.png"
-      alt=""
-      width={44}
-      height={44}
-      className="size-11 shrink-0 rounded-sm border border-line object-cover"
-    />
+    <span
+      className="grid size-11 shrink-0 place-items-center rounded-lg border border-ink bg-ink font-serif text-2xl text-paper-3 shadow-[3px_3px_0_var(--color-paper-2)]"
+      aria-hidden="true"
+    >
+      问
+    </span>
   );
 }
 
@@ -314,7 +313,7 @@ function NameCard({
   ] as const;
   return (
     <article className="rounded-xl border border-line bg-paper-3 p-5">
-      <button type="button" onClick={onOpen} className="w-full text-left">
+      <button type="button" aria-expanded={open} onClick={onOpen} className="w-full text-left">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="font-serif text-3xl tracking-wide">{idea.full}</h3>
@@ -355,34 +354,26 @@ function NameCard({
             </div>
           ))}
         </div>
-        <p className="mt-2 text-[11px] leading-relaxed text-muted">
-          五行/八字 30 · 音律 18 · 字义 18 · 气质 12 · 五格/数理 12 · 易用 10
-        </p>
-        <p className="mt-2 text-sm text-ink-soft">
+        <p className="mt-3 text-sm leading-relaxed text-ink">{idea.meaning}</p>
+        <p className="mt-2 text-xs text-ink-soft">
           {idea.fills.length ? `补${idea.fills.join("、")}` : "五行作参照"}
-          <span className="text-muted"> · 点开看字义与笔画</span>
+          <span className="text-muted"> · {open ? "收起完整依据" : "展开完整依据"}</span>
         </p>
       </button>
-      <div className="mt-4 space-y-3 border-t border-line pt-4 text-sm">
-        <div>
-          <div className="text-xs tracking-wide text-muted">寓意</div>
-          <p className="mt-1 leading-relaxed text-ink">{idea.meaning}</p>
-        </div>
-        <div>
-          <div className="text-xs tracking-wide text-muted">依据</div>
-          <ul className="mt-1 space-y-1.5 leading-relaxed text-ink-soft">
-            {idea.basis.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-        </div>
-        <p className="leading-relaxed text-ink-soft">
-          <span className="text-muted">备注 </span>
-          {idea.note}
-        </p>
-      </div>
       {open ? (
         <div className="rise mt-4 space-y-3 border-t border-line pt-4 text-sm">
+          <div>
+            <div className="text-xs tracking-wide text-muted">判断依据</div>
+            <ul className="mt-1 space-y-1.5 leading-relaxed text-ink-soft">
+              {idea.basis.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </div>
+          <p className="leading-relaxed text-ink-soft">
+            <span className="text-muted">备注 </span>
+            {idea.note}
+          </p>
           <ul className="space-y-2">
             {idea.chars.map((c) => (
               <li key={c.c}>
@@ -1102,7 +1093,42 @@ export function Studio() {
           ) : null}
           {activeOut?.note ? <p className="text-sm text-muted">{activeOut.note}</p> : null}
           <div ref={listRef} className="space-y-3">
-            {ideas.map((idea) => (
+            {ideas.length ? (
+              <aside className="rounded-lg border border-line bg-paper px-4 py-3 text-xs leading-relaxed text-ink-soft">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-medium text-ink">评分口径</span>
+                  <span className="text-muted">不是吉凶判定</span>
+                </div>
+                <p className="mt-1">
+                  命局/行业 30 · 音律 18 · 字义 18 · 气质 12 · 数理 12 · 易用 10
+                </p>
+              </aside>
+            ) : null}
+            {ideas.slice(0, 3).map((idea) => (
+              <NameCard
+                key={idea.id}
+                idea={idea}
+                open={openId === idea.id}
+                saved={saved.some((s) => s.full === idea.full && s.kind === idea.kind)}
+                onOpen={() => setOpenId((id) => (id === idea.id ? null : idea.id))}
+                onSave={() => remember(idea)}
+              />
+            ))}
+            {aiRequest ? (
+              <AiInsightPanel
+                key={aiRequest.candidates.map((candidate) => candidate.full).join("|")}
+                request={aiRequest}
+              />
+            ) : null}
+            {ideas.length > 3 ? (
+              <div className="px-1 pt-2">
+                <h2 className="font-serif text-xl">更多候选</h2>
+                <p className="mt-1 text-xs leading-relaxed text-muted">
+                  分数接近时，优先比较字义、读音和真实使用场景。
+                </p>
+              </div>
+            ) : null}
+            {ideas.slice(3).map((idea) => (
               <NameCard
                 key={idea.id}
                 idea={idea}
@@ -1113,12 +1139,6 @@ export function Studio() {
               />
             ))}
           </div>
-          {aiRequest ? (
-            <AiInsightPanel
-              key={aiRequest.candidates.map((candidate) => candidate.full).join("|")}
-              request={aiRequest}
-            />
-          ) : null}
           {activeOut && activeOut.pages > 1 ? (
             <button
               type="button"
