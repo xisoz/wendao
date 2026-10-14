@@ -25,7 +25,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "问道" },
       { name: "application-name", content: "问道" },
-      { name: "description", content: "按生辰八字、五行喜用、音律与康熙笔画，给新生儿和公司起名。" },
+      { name: "description", content: "取名、八字、六爻、黄历与命理文章：按生辰八字、五行喜用、音律与康熙笔画起名，依据写在纸上。" },
       { name: "theme-color", content: "#F3EDE4" },
     ],
     links: [

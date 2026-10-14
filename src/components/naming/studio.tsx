@@ -9,6 +9,7 @@ import { loadSaved, writeSaved, type SavedName } from "@/lib/naming/storage";
 import { parseSurname } from "@/lib/naming/surnames";
 import type { Chart, El, Gender, NameIdea, Wuge } from "@/lib/naming/types";
 import { cn } from "@/lib/utils";
+import { SiteNav } from "@/components/site/chrome";
 
 type Tab = "name" | "chart" | "lex" | "saved";
 type Mode = "baby" | "company";
@@ -606,8 +607,12 @@ function ChartRead({ chart }: { chart: Chart }) {
   );
 }
 
-export function Studio() {
-  const [tab, setTab] = useState<Tab>("name");
+export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
+  const [tab, setTab] = useState<Tab>(initialTab ?? "name");
+  // 站点导航「八字」→ /name?tab=chart；在本页内切换导航时同步分栏
+  useEffect(() => {
+    setTab(initialTab ?? "name");
+  }, [initialTab]);
   const [mode, setMode] = useState<Mode>("baby");
   const [surname, setSurname] = useState("");
   const [gender, setGender] = useState<Gender>("f");
@@ -787,6 +792,7 @@ export function Studio() {
           <p className="mt-2 text-sm text-ink-soft">生辰取名 · 公司起名</p>
         </div>
       </header>
+      <SiteNav active={tab === "chart" ? "八字" : "取名"} className="mt-4" />
       <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft">
         先看四柱，再衡字。喜用、音律、字义与《康熙字典》笔画放在同一张纸上。这是传统取名的参照，不是命运的结论。
       </p>

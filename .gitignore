@@ -11,3 +11,4 @@ screenshots
 .env.*
 *.log
 .DS_Store
+data/uploads/

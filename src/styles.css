@@ -880,3 +880,111 @@
     font-size: 4rem;
   }
 }
+
+/* ---- 站点导航 / 文章 / 六爻 / 黄历 / 后台 ---- */
+@layer components {
+  .site-nav {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-radius: 0.75rem;
+    background: var(--color-paper-2);
+    padding: 0.25rem;
+  }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav-link {
+    flex: 1 0 auto;
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.9rem;
+    border-radius: 0.55rem;
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+  }
+  .site-nav-link:hover { color: var(--color-cinnabar); }
+  .site-nav-link.is-active { background: var(--color-paper-3); color: var(--color-ink); box-shadow: 0 1px 0 var(--color-line); }
+
+  .article-cover {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0.9rem;
+    background: var(--color-paper-2);
+  }
+  .article-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .article-cover-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--color-cinnabar) 14%, transparent), transparent 55%),
+      var(--color-paper-2);
+    font-family: var(--font-serif);
+    font-size: 2.6rem;
+    color: var(--color-cinnabar);
+    letter-spacing: 0.1em;
+  }
+  .article-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    padding: 0.1rem 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+  }
+  .article-tag.is-on { border-color: var(--color-cinnabar); background: var(--color-cinnabar); color: var(--color-cinnabar-ink); }
+  .pin-badge { color: var(--color-cinnabar); font-size: 0.75rem; }
+
+  .prose-wd { font-size: 1rem; line-height: 1.9; color: var(--color-ink); overflow-wrap: anywhere; }
+  .prose-wd h2 { margin: 2rem 0 0.75rem; font-size: 1.35rem; line-height: 1.4; }
+  .prose-wd h3 { margin: 1.5rem 0 0.5rem; font-size: 1.15rem; }
+  .prose-wd p { margin: 0.9rem 0; }
+  .prose-wd strong { color: var(--color-ink); font-weight: 600; }
+  .prose-wd a { color: var(--color-cinnabar); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-wd ul, .prose-wd ol { margin: 0.9rem 0; padding-left: 1.4rem; }
+  .prose-wd ul { list-style: disc; }
+  .prose-wd ol { list-style: decimal; }
+  .prose-wd li { margin: 0.3rem 0; }
+  .prose-wd blockquote { margin: 1rem 0; border-left: 3px solid var(--color-cinnabar); padding: 0.25rem 0 0.25rem 1rem; color: var(--color-ink-soft); }
+  .prose-wd img { margin: 1rem 0; max-width: 100%; border-radius: 0.75rem; }
+  .prose-wd code { border-radius: 0.3rem; background: var(--color-paper-2); padding: 0 0.3rem; font-size: 0.9em; }
+  .prose-wd .table-wrap { margin: 1rem 0; overflow-x: auto; }
+  .prose-wd table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .prose-wd th, .prose-wd td { border: 1px solid var(--color-line); padding: 0.4rem 0.6rem; text-align: left; vertical-align: top; }
+  .prose-wd th { background: var(--color-paper-2); font-weight: 600; }
+
+  .gua-row { display: grid; grid-template-columns: 1.4rem 1.6rem 4.2rem 1.2rem 1fr; align-items: center; gap: 0.35rem; min-height: 2.2rem; font-size: 0.875rem; }
+  .gua-bar { display: flex; gap: 0.45rem; height: 0.6rem; }
+  .gua-bar span { flex: 1; border-radius: 2px; background: var(--color-ink); }
+  .gua-bar.is-moving span { background: var(--color-cinnabar); }
+  .wd-input {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper-3);
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+  .wd-input:focus { outline: 2px solid color-mix(in srgb, var(--color-cinnabar) 60%, transparent); outline-offset: 1px; }
+  .wd-btn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0 1.25rem;
+    font-size: 0.9rem;
+    background: var(--color-ink);
+    color: var(--color-paper-3);
+  }
+  .wd-btn:disabled { opacity: 0.5; }
+  .wd-btn-ghost { background: var(--color-paper-3); color: var(--color-ink); border: 1px solid var(--color-line); }
+  .wd-btn-cin { background: var(--color-cinnabar); color: var(--color-cinnabar-ink); }
+}

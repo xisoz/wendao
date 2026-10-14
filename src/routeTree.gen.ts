@@ -10,11 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as HuangliRouteImport } from './routes/huangli'
+import { Route as LiuyaoRouteImport } from './routes/liuyao'
 import { Route as NameRouteImport } from './routes/name'
+import { Route as ArticlesIndexRouteImport } from './routes/articles/index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
+import { Route as UploadsNameRouteImport } from './routes/uploads/$name'
+import { Route as ApiAdminSplatRouteImport } from './routes/api/admin/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HuangliRoute = HuangliRouteImport.update({
+  id: '/huangli',
+  path: '/huangli',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiuyaoRoute = LiuyaoRouteImport.update({
+  id: '/liuyao',
+  path: '/liuyao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NameRoute = NameRouteImport.update({
@@ -22,31 +44,107 @@ const NameRoute = NameRouteImport.update({
   path: '/name',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UploadsNameRoute = UploadsNameRouteImport.update({
+  id: '/uploads/$name',
+  path: '/uploads/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminSplatRoute = ApiAdminSplatRouteImport.update({
+  id: '/api/admin/$',
+  path: '/api/admin/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/huangli': typeof HuangliRoute
+  '/liuyao': typeof LiuyaoRoute
   '/name': typeof NameRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/uploads/$name': typeof UploadsNameRoute
+  '/articles/': typeof ArticlesIndexRoute
+  '/api/admin/$': typeof ApiAdminSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/huangli': typeof HuangliRoute
+  '/liuyao': typeof LiuyaoRoute
   '/name': typeof NameRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/uploads/$name': typeof UploadsNameRoute
+  '/articles': typeof ArticlesIndexRoute
+  '/api/admin/$': typeof ApiAdminSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/huangli': typeof HuangliRoute
+  '/liuyao': typeof LiuyaoRoute
   '/name': typeof NameRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/uploads/$name': typeof UploadsNameRoute
+  '/articles/': typeof ArticlesIndexRoute
+  '/api/admin/$': typeof ApiAdminSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/name'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/huangli'
+    | '/liuyao'
+    | '/name'
+    | '/articles/$slug'
+    | '/uploads/$name'
+    | '/articles/'
+    | '/api/admin/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/name'
-  id: '__root__' | '/' | '/name'
+  to:
+    | '/'
+    | '/admin'
+    | '/huangli'
+    | '/liuyao'
+    | '/name'
+    | '/articles/$slug'
+    | '/uploads/$name'
+    | '/articles'
+    | '/api/admin/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/huangli'
+    | '/liuyao'
+    | '/name'
+    | '/articles/$slug'
+    | '/uploads/$name'
+    | '/articles/'
+    | '/api/admin/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  HuangliRoute: typeof HuangliRoute
+  LiuyaoRoute: typeof LiuyaoRoute
   NameRoute: typeof NameRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
+  UploadsNameRoute: typeof UploadsNameRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
+  ApiAdminSplatRoute: typeof ApiAdminSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +156,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/huangli': {
+      id: '/huangli'
+      path: '/huangli'
+      fullPath: '/huangli'
+      preLoaderRoute: typeof HuangliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/liuyao': {
+      id: '/liuyao'
+      path: '/liuyao'
+      fullPath: '/liuyao'
+      preLoaderRoute: typeof LiuyaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/name': {
       id: '/name'
       path: '/name'
@@ -65,12 +184,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uploads/$name': {
+      id: '/uploads/$name'
+      path: '/uploads/$name'
+      fullPath: '/uploads/$name'
+      preLoaderRoute: typeof UploadsNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/$': {
+      id: '/api/admin/$'
+      path: '/api/admin/$'
+      fullPath: '/api/admin/$'
+      preLoaderRoute: typeof ApiAdminSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  HuangliRoute: HuangliRoute,
+  LiuyaoRoute: LiuyaoRoute,
   NameRoute: NameRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
+  UploadsNameRoute: UploadsNameRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
+  ApiAdminSplatRoute: ApiAdminSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
