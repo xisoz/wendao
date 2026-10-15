@@ -24,6 +24,10 @@ function makeWorkspace() {
   return root;
 }
 
+
+// .grok/ is gitignored; skip when the og skill docs are not checked out.
+const SKIP_GROK = existsSync(join(TEMPLATE_ROOT, ".grok/skills/og/references")) ? false : ".grok/skills/og not present";
+
 test("parseWriteAtomicArgs needs exactly a staged file and a target", () => {
   assert.deepEqual(parseWriteAtomicArgs([".grok/og.tmp", "public/og.jpg"]), {
     staged: ".grok/og.tmp",
@@ -164,7 +168,7 @@ test("cli: relative paths follow the script's root, not the caller's cwd", () =>
   assert.equal(existsSync(join(root, "public/og.jpg")), false);
 });
 
-test("every hand-over the og skill prints is one this script accepts", () => {
+test("every hand-over the og skill prints is one this script accepts", { skip: SKIP_GROK }, () => {
   // The card and banner recipes live in the skill's references/, not SKILL.md.
   const skillDir = join(TEMPLATE_ROOT, ".grok/skills/og");
   const docs = [

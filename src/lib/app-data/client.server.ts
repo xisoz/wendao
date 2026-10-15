@@ -278,7 +278,9 @@ function tokenIdentityKey(token: string): string {
             .digest("base64url");
         }
       }
-    } catch {}
+    } catch (err) {
+      console.warn("[app-data] could not derive scoped identity from token; falling back to token hash", err);
+    }
   }
   return createHash("sha256").update(token).digest("base64url");
 }

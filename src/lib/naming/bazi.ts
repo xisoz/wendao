@@ -1,6 +1,6 @@
 import { Solar } from "lunar-javascript";
 import type { Chart, El, FlowMonth, Gender, LuckStep, LuckYear, Pillar, ShenSha } from "./types";
-import { controls, generates } from "./numerology";
+import { controls, generates } from "./numerology.ts";
 
 export const STEM_EL: Record<string, El> = {
   甲: "木",
@@ -32,8 +32,12 @@ export const BRANCH_EL: Record<string, El> = {
 
 const PARENT: Record<El, El> = { 木: "水", 火: "木", 土: "火", 金: "土", 水: "金" };
 
+/**
+ * 子时跨两天：23–24 点是晚子时，00–01 点是早子时。晚子时按 hour=23 交给
+ * lunar-javascript，由它按当天日柱、次日时干排时柱；不要折成当天 00 点。
+ */
 export const HOURS: { id: string; name: string; range: string }[] = [
-  { id: "0", name: "子", range: "00–01" },
+  { id: "0", name: "早子", range: "00–01" },
   { id: "2", name: "丑", range: "01–03" },
   { id: "4", name: "寅", range: "03–05" },
   { id: "6", name: "卯", range: "05–07" },
@@ -45,6 +49,7 @@ export const HOURS: { id: string; name: string; range: string }[] = [
   { id: "18", name: "酉", range: "17–19" },
   { id: "20", name: "戌", range: "19–21" },
   { id: "22", name: "亥", range: "21–23" },
+  { id: "23", name: "晚子", range: "23–24" },
 ];
 
 export function validDate(y: number, m: number, d: number): boolean {
@@ -108,8 +113,16 @@ function equationOfTime(date: Date): number {
   return 9.87 * Math.sin(2 * angle) - 7.53 * Math.cos(angle) - 1.5 * Math.sin(angle);
 }
 
-function solarTimes(input: { year: number; month: number; day: number; hour: number; longitude?: number | null }) {
-  const clock = new Date(Date.UTC(input.year, input.month - 1, input.day, input.hour, 30, 0));
+/**
+ * 未填分钟时取该时辰的中点：偶数整点（丑 01–03 → 02:00 …），早子 00:30、晚子 23:30。
+ * 填了分钟就按实际时刻排，节气交接（如立春）精确到分钟。
+ */
+export function defaultMinute(hour: number): number {
+  return hour === 0 || hour === 23 ? 30 : 0;
+}
+
+function solarTimes(input: { year: number; month: number; day: number; hour: number; minute: number; longitude?: number | null }) {
+  const clock = new Date(Date.UTC(input.year, input.month - 1, input.day, input.hour, input.minute, 0));
   const longitude = typeof input.longitude === "number" && Number.isFinite(input.longitude) ? input.longitude : null;
   const offset = longitude === null ? 0 : Math.round((longitude - 120) * 4 + equationOfTime(clock));
   const trueSolar = new Date(clock.getTime() + offset * 60_000);
@@ -169,13 +182,19 @@ export function buildChart(input: {
   month: number;
   day: number;
   hour: number | null;
+  minute?: number | null;
   gender: Gender | null;
   longitude?: number | null;
   flowYear?: number;
 }): Chart {
   const hourKnown = input.hour !== null;
   const hour = input.hour ?? 12;
-  const solarData = solarTimes({ year: input.year, month: input.month, day: input.day, hour, longitude: input.longitude });
+  const rawMinute = input.minute;
+  const minute =
+    typeof rawMinute === "number" && Number.isInteger(rawMinute) && rawMinute >= 0 && rawMinute < 60
+      ? rawMinute
+      : defaultMinute(hour);
+  const solarData = solarTimes({ year: input.year, month: input.month, day: input.day, hour, minute, longitude: input.longitude });
   const solar = solarData.solar;
   const lunar = solar.getLunar();
   const ec = lunar.getEightChar();
@@ -286,7 +305,6 @@ export function buildChart(input: {
     xi = tiaoEl && !yong.includes(tiaoEl) ? [tiaoEl] : [];
   } else if (strength === "身弱") {
     yong = scarcest([parent, dayEl], counts);
-    if (yong.length < 2) yong = [parent, dayEl];
     xi = tiaoEl && !yong.includes(tiaoEl) ? [tiaoEl] : [];
   } else {
     yong = tiaoEl ? [tiaoEl] : scarcest([parent, produced], counts).slice(0, 1);

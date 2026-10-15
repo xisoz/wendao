@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtempSync, symlinkSync } from "node:fs";
+import { mkdtempSync, symlinkSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -25,6 +25,10 @@ function appEnvFetch(env) {
     text: async () => JSON.stringify(env),
   });
 }
+
+
+// .grok/ is gitignored; skip when the shipped app-env is absent.
+const SKIP_GROK = existsSync(join(projectRoot(), ".grok/app-env.json")) ? false : ".grok/app-env.json not present";
 
 test("the flag predicate matches src/lib/auth", () => {
   assert.equal(authEnabledFromEnvValue("false"), false);
@@ -90,7 +94,7 @@ test("only a divergence warns the smoke verdict", () => {
   }
 });
 
-test("the build side resolves the template's shipped app-env", () => {
+test("the build side resolves the template's shipped app-env", { skip: SKIP_GROK }, () => {
   assert.equal(buildAuthEnabled(projectRoot(), {}), false);
   assert.equal(buildAuthEnabled(projectRoot(), { VITE_AUTH_ENABLED: "true" }), true);
 });

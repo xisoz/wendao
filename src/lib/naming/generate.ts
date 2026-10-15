@@ -17,6 +17,7 @@ export type BabyRequest = {
   month: number;
   day: number;
   hour: number | null;
+  minute?: number | null;
   longitude?: number | null;
   givenLen: 1 | 2;
   style: StyleId;
@@ -33,7 +34,7 @@ export type CompanyRequest = {
   avoid: string;
   withSuffix: boolean;
   include: string;
-  founder: { year: number; month: number; day: number; hour: number | null; longitude?: number | null; gender: Gender } | null;
+  founder: { year: number; month: number; day: number; hour: number | null; minute?: number | null; longitude?: number | null; gender: Gender } | null;
   preferred: El[] | null;
   batch?: number;
 };
@@ -340,6 +341,7 @@ export function generateBaby(req: BabyRequest): NameResult {
     month: req.month,
     day: req.day,
     hour: req.hour,
+    minute: req.minute,
     longitude: req.longitude,
     gender: req.gender,
   });
@@ -449,6 +451,7 @@ export function generateCompany(req: CompanyRequest): NameResult {
       month: req.founder.month,
       day: req.founder.day,
       hour: req.founder.hour,
+      minute: req.founder.minute,
       longitude: req.founder.longitude,
       gender: req.founder.gender,
     });
