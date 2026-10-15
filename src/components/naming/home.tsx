@@ -344,7 +344,7 @@ export function Home({ articles = [] }: { articles?: ArticleSummary[] }) {
                   params={{ slug: a.slug }}
                   className="block rounded-2xl border border-line bg-paper-3 p-3 transition hover:border-ink"
                 >
-                  <Cover src={a.cover} category={a.category} />
+                  <Cover src={a.cover} category={a.category} seed={a.slug} />
                   <p className="mt-3 text-xs text-muted">
                     {a.pinned ? <span className="pin-badge mr-2">置顶</span> : null}
                     {a.category} · {fmtDate(a.published_at)}

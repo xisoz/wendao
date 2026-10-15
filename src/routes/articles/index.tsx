@@ -38,7 +38,7 @@ function ArticleList() {
         {data.items.map((a) => (
           <li key={a.id}>
             <Link to="/articles/$slug" params={{ slug: a.slug }} className="block rounded-2xl border border-line bg-paper-3 p-3 transition hover:border-ink">
-              <Cover src={a.cover} category={a.category} />
+              <Cover src={a.cover} category={a.category} seed={a.slug} />
               <div className="px-1 pb-1 pt-3">
                 <div className="flex items-center gap-2 text-xs text-muted">
                   {a.pinned ? <span className="pin-badge">置顶</span> : null}

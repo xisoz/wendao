@@ -35,16 +35,6 @@ const EL_TEXT: Record<El, string> = {
 const YEARS: number[] = [];
 for (let y = 2026; y >= 1940; y--) YEARS.push(y);
 
-function Seal() {
-  return (
-    <span
-      className="grid size-11 shrink-0 place-items-center rounded-lg border border-ink bg-ink font-serif text-2xl text-paper-3 shadow-[3px_3px_0_var(--color-paper-2)]"
-      aria-hidden="true"
-    >
-      问
-    </span>
-  );
-}
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -903,20 +893,15 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
   const lex = useMemo(() => searchGlyphs(query, lexEl), [query, lexEl]);
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-4 pb-16 pt-6">
-      <header className="flex items-start gap-3">
-        <Seal />
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline justify-between gap-3">
-            <h1 className="font-serif text-3xl leading-none tracking-tight">问道</h1>
-            <Link to="/" className="shrink-0 text-sm text-ink-soft">
-              首页
-            </Link>
-          </div>
-          <p className="mt-2 text-sm text-ink-soft">生辰取名 · 公司起名</p>
-        </div>
+    <main className="mx-auto min-h-screen max-w-3xl px-4 pb-16 pt-4 sm:px-6">
+      <header className="landing-header flex items-center justify-between gap-4">
+        <Link to="/" className="landing-brand inline-flex items-center gap-3" aria-label="返回问道首页">
+          <span className="landing-mark" aria-hidden="true">问</span>
+          <span className="landing-brand-name block font-serif text-xl leading-none">问道</span>
+        </Link>
+        <SiteNav active={tab === "chart" ? "八字" : "取名"} className="hidden sm:flex" />
       </header>
-      <SiteNav active={tab === "chart" ? "八字" : "取名"} className="mt-4" />
+      <SiteNav active={tab === "chart" ? "八字" : "取名"} className="mt-3 sm:hidden" />
       <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft">
         先看四柱，再衡字。喜用、音律、字义与《康熙字典》笔画放在同一张纸上。这是传统取名的参照，不是命运的结论。
       </p>
@@ -1064,7 +1049,7 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
               <button
                 type="button"
                 onClick={() => runBaby()}
-                className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
+                className="h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
               >
                 衡名
               </button>
@@ -1140,7 +1125,7 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
               <button
                 type="button"
                 onClick={() => runCompany()}
-                className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
+                className="h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
               >
                 衡字号
               </button>

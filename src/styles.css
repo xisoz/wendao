@@ -1005,6 +1005,18 @@
     font-size: 2.6rem;
     color: var(--color-cinnabar);
     letter-spacing: 0.1em;
+    position: relative;
+  }
+  .article-cover-glyph {
+    position: absolute;
+    right: 6%;
+    bottom: -8%;
+    font-size: 6rem;
+    line-height: 1;
+    opacity: 0.12;
+  }
+  .article-cover-label {
+    position: relative;
   }
   .article-tag {
     display: inline-flex;
