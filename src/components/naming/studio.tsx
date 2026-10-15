@@ -899,9 +899,12 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
           <span className="landing-mark" aria-hidden="true">问</span>
           <span className="landing-brand-name block font-serif text-xl leading-none">问道</span>
         </Link>
-        <SiteNav active={tab === "chart" ? "八字" : "取名"} className="hidden sm:flex" />
+        <SiteNav
+          active={tab === "chart" ? "八字" : "取名"}
+          omit={["取名", "八字"]}
+          className="hidden sm:flex"
+        />
       </header>
-      <SiteNav active={tab === "chart" ? "八字" : "取名"} className="mt-3 sm:hidden" />
       <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft">
         先看四柱，再衡字。喜用、音律、字义与《康熙字典》笔画放在同一张纸上。这是传统取名的参照，不是命运的结论。
       </p>

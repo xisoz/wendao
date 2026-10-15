@@ -10,10 +10,18 @@ export const NAV = [
 ] as const;
 
 /** 站点主导航：手机端横向一行，可滑动。 */
-export function SiteNav({ active, className = "" }: { active?: string; className?: string }) {
+export function SiteNav({
+  active,
+  className = "",
+  omit = [],
+}: {
+  active?: string;
+  className?: string;
+  omit?: readonly string[];
+}) {
   return (
     <nav className={`site-nav ${className}`} aria-label="站点导航">
-      {NAV.map((n) => (
+      {NAV.filter((n) => !omit.includes(n.label)).map((n) => (
         <Link
           key={n.label}
           to={n.to}
