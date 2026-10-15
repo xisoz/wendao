@@ -9,5 +9,8 @@ attachments
 screenshots
 .env
 .env.*
+.dev.vars
+.dev.vars.*
+.wrangler
 *.log
 .DS_Store
