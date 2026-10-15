@@ -36,7 +36,7 @@ function ArticlePage() {
         </div>
         <h1 className="mt-3 font-serif text-[1.75rem] leading-snug">{a.title}</h1>
         {a.summary ? <p className="mt-3 text-sm leading-7 text-ink-soft">{a.summary}</p> : null}
-        {a.cover ? <div className="mt-5"><Cover src={a.cover} category={a.category} /></div> : null}
+        {a.cover ? <div className="mt-5"><Cover src={a.cover} category={a.category} seed={a.slug} /></div> : null}
         {/* html 由 mdToHtml 生成：全文先转义，只输出白名单标签 */}
         <div className="prose-wd mt-4" dangerouslySetInnerHTML={{ __html: a.html }} />
         <Disclaimer />
