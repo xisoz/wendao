@@ -18,6 +18,7 @@ import { Route as ArticlesIndexRouteImport } from './routes/articles/index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
 import { Route as UploadsNameRouteImport } from './routes/uploads/$name'
 import { Route as ApiAdminSplatRouteImport } from './routes/api/admin/$'
+import { Route as ApiAiExplainRouteImport } from './routes/api/ai/explain'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ApiAdminSplatRoute = ApiAdminSplatRouteImport.update({
   path: '/api/admin/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAiExplainRoute = ApiAiExplainRouteImport.update({
+  id: '/api/ai/explain',
+  path: '/api/ai/explain',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/uploads/$name': typeof UploadsNameRoute
   '/articles/': typeof ArticlesIndexRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/ai/explain': typeof ApiAiExplainRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/uploads/$name': typeof UploadsNameRoute
   '/articles': typeof ArticlesIndexRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/ai/explain': typeof ApiAiExplainRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/uploads/$name': typeof UploadsNameRoute
   '/articles/': typeof ArticlesIndexRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/ai/explain': typeof ApiAiExplainRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/uploads/$name'
     | '/articles/'
     | '/api/admin/$'
+    | '/api/ai/explain'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/uploads/$name'
     | '/articles'
     | '/api/admin/$'
+    | '/api/ai/explain'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/uploads/$name'
     | '/articles/'
     | '/api/admin/$'
+    | '/api/ai/explain'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   UploadsNameRoute: typeof UploadsNameRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   ApiAdminSplatRoute: typeof ApiAdminSplatRoute
+  ApiAiExplainRoute: typeof ApiAiExplainRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ai/explain': {
+      id: '/api/ai/explain'
+      path: '/api/ai/explain'
+      fullPath: '/api/ai/explain'
+      preLoaderRoute: typeof ApiAiExplainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   UploadsNameRoute: UploadsNameRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   ApiAdminSplatRoute: ApiAdminSplatRoute,
+  ApiAiExplainRoute: ApiAiExplainRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

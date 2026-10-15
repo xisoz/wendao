@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { addElements, buildChart, elementState, HOURS, lackElements, validDate } from "@/lib/naming/bazi";
+import { AiInsightPanel } from "@/components/naming/ai-insight";
+import type { AiExplainRequest } from "@/lib/ai/contracts";
+import {
+  addElements,
+  buildChart,
+  elementState,
+  HOURS,
+  lackElements,
+  validDate,
+} from "@/lib/naming/bazi";
 import { INDUSTRIES, STYLES, type StyleId } from "@/lib/naming/catalog";
 import { generateBaby, generateCompany, type NameResult } from "@/lib/naming/generate";
 import { lookupName, searchGlyphs } from "@/lib/naming/lexicon";
@@ -28,13 +37,12 @@ for (let y = 2026; y >= 1940; y--) YEARS.push(y);
 
 function Seal() {
   return (
-    <img
-      src="/app-icon.png"
-      alt=""
-      width={44}
-      height={44}
-      className="size-11 shrink-0 rounded-sm border border-line object-cover"
-    />
+    <span
+      className="grid size-11 shrink-0 place-items-center rounded-lg border border-ink bg-ink font-serif text-2xl text-paper-3 shadow-[3px_3px_0_var(--color-paper-2)]"
+      aria-hidden="true"
+    >
+      问
+    </span>
   );
 }
 
@@ -117,7 +125,9 @@ function Pillars({ chart }: { chart: Chart }) {
               <div className="mt-1 text-xs">
                 <ElText el={p.ganEl} /> · {p.shiGan}
               </div>
-              <div className="mt-1 text-[11px] text-muted">旬 {p.xun} · 空 {p.xunKong}</div>
+              <div className="mt-1 text-[11px] text-muted">
+                旬 {p.xun} · 空 {p.xunKong}
+              </div>
               <div className="mt-3 font-serif text-2xl leading-none">{p.zhi}</div>
               <div className="mt-1 text-xs">
                 <ElText el={p.zhiEl} />
@@ -156,7 +166,11 @@ function Bars({ chart }: { chart: Chart }) {
             />
           </div>
           <span className="text-right text-xs tabular-nums">
-            <span className={elementState(chart.counts[el]) === "缺" ? "text-cinnabar" : "text-ink-soft"}>
+            <span
+              className={
+                elementState(chart.counts[el]) === "缺" ? "text-cinnabar" : "text-ink-soft"
+              }
+            >
               {elementState(chart.counts[el])}
             </span>
             <span className="ml-1 text-muted">{chart.counts[el].toFixed(1)}</span>
@@ -223,11 +237,16 @@ function LiuNianRead({ chart }: { chart: Chart }) {
         {chart.liuNian.map((year) => (
           <div
             key={year.year}
-            className={cn("rounded-md border bg-paper px-2 py-2", year.current ? "border-cinnabar" : "border-line")}
+            className={cn(
+              "rounded-md border bg-paper px-2 py-2",
+              year.current ? "border-cinnabar" : "border-line",
+            )}
           >
             <div className="text-xs tabular-nums text-muted">{year.year}</div>
             <div className="mt-1 font-serif text-lg">{year.ganZhi}</div>
-            <div className="text-xs text-ink-soft">{year.yun} · {year.el}</div>
+            <div className="text-xs text-ink-soft">
+              {year.yun} · {year.el}
+            </div>
           </div>
         ))}
       </div>
@@ -246,7 +265,10 @@ function LiuYueRead({ chart }: { chart: Chart }) {
         {chart.liuYue.map((month) => (
           <div
             key={month.month}
-            className={cn("rounded-md border bg-paper px-2 py-2", month.current ? "border-cinnabar" : "border-line")}
+            className={cn(
+              "rounded-md border bg-paper px-2 py-2",
+              month.current ? "border-cinnabar" : "border-line",
+            )}
           >
             <div className="text-xs text-muted">{month.month}月</div>
             <div className="mt-1 font-serif text-lg">{month.ganZhi}</div>
@@ -263,7 +285,9 @@ function ChartBasis({ chart }: { chart: Chart }) {
     <details className="rounded-lg border border-line bg-paper px-4 py-3 text-sm">
       <summary className="cursor-pointer font-medium text-ink">排盘依据与说明</summary>
       <ul className="mt-3 space-y-2 leading-relaxed text-ink-soft">
-        {chart.basis.map((line) => <li key={line}>{line}</li>)}
+        {chart.basis.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
       </ul>
     </details>
   );
@@ -295,89 +319,84 @@ function NameCard({
   saved,
   onOpen,
   onSave,
-  }: {
-    idea: NameIdea;
-    open: boolean;
-    saved: boolean;
-    onOpen: () => void;
-    onSave: () => void;
-  }) {
-    const scoreItems = [
-      [idea.kind === "baby" ? "命局" : "行业", idea.scoreBreakdown.bazi, 30],
-      ["音律", idea.scoreBreakdown.tone, 18],
-      ["字义", idea.scoreBreakdown.meaning, 18],
-      ["气质", idea.scoreBreakdown.style, 12],
-      ["数理", idea.scoreBreakdown.numerology, 12],
-      ["易用", idea.scoreBreakdown.usability, 10],
-    ] as const;
-    return (
-      <article className="rounded-xl border border-line bg-paper-3 p-5">
-      <button type="button" onClick={onOpen} className="w-full text-left">
+}: {
+  idea: NameIdea;
+  open: boolean;
+  saved: boolean;
+  onOpen: () => void;
+  onSave: () => void;
+}) {
+  const scoreItems = [
+    [idea.kind === "baby" ? "命局" : "行业", idea.scoreBreakdown.bazi, 30],
+    ["音律", idea.scoreBreakdown.tone, 18],
+    ["字义", idea.scoreBreakdown.meaning, 18],
+    ["气质", idea.scoreBreakdown.style, 12],
+    ["数理", idea.scoreBreakdown.numerology, 12],
+    ["易用", idea.scoreBreakdown.usability, 10],
+  ] as const;
+  return (
+    <article className="rounded-xl border border-line bg-paper-3 p-5">
+      <button type="button" aria-expanded={open} onClick={onOpen} className="w-full text-left">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="font-serif text-3xl tracking-wide">{idea.full}</h3>
             <p className="mt-1 text-sm text-muted">{idea.pinyin}</p>
-            </div>
-            <div className="text-right">
-              <div className="flex items-baseline justify-end gap-1">
-                <div className="font-serif text-2xl tabular-nums text-cinnabar">{idea.score}</div>
-                <span className="text-xs text-muted">/100</span>
-              </div>
-              <div className="text-xs text-muted">综合衡分</div>
-            </div>
           </div>
+          <div className="text-right">
+            <div className="flex items-baseline justify-end gap-1">
+              <div className="font-serif text-2xl tabular-nums text-cinnabar">{idea.score}</div>
+              <span className="text-xs text-muted">/100</span>
+            </div>
+            <div className="text-xs text-muted">综合衡分</div>
+          </div>
+        </div>
         <div className="mt-3 flex flex-wrap gap-2 text-sm">
           {idea.chars.map((c) => (
             <span key={c.c} className="text-ink-soft">
               {c.c} <ElText el={c.el} />
             </span>
           ))}
-            <span className="text-muted">{idea.pattern}</span>
-          </div>
-          <div className="mt-4 grid grid-cols-3 gap-1.5 border-t border-line pt-3">
-            {scoreItems.map(([label, value, max]) => (
-              <div key={label} className="rounded-md bg-paper px-2 py-1.5">
-                <div className="flex items-baseline justify-between gap-1 text-[11px]">
-                  <span className="text-muted">{label}</span>
-                  <span className="tabular-nums text-ink-soft">{value}<span className="text-muted">/{max}</span></span>
-                </div>
-                <div className="mt-1 h-1 overflow-hidden rounded-full bg-line">
-                  <div
-                    className="h-full rounded-full bg-cinnabar"
-                    style={{ width: `${Math.round((value / max) * 100)}%` }}
-                  />
-                </div>
+          <span className="text-muted">{idea.pattern}</span>
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-1.5 border-t border-line pt-3">
+          {scoreItems.map(([label, value, max]) => (
+            <div key={label} className="rounded-md bg-paper px-2 py-1.5">
+              <div className="flex items-baseline justify-between gap-1 text-[11px]">
+                <span className="text-muted">{label}</span>
+                <span className="tabular-nums text-ink-soft">
+                  {value}
+                  <span className="text-muted">/{max}</span>
+                </span>
               </div>
-            ))}
-          </div>
-          <p className="mt-2 text-[11px] leading-relaxed text-muted">
-            五行/八字 30 · 音律 18 · 字义 18 · 气质 12 · 五格/数理 12 · 易用 10
-          </p>
-          <p className="mt-2 text-sm text-ink-soft">
-            {idea.fills.length ? `补${idea.fills.join("、")}` : "五行作参照"}
-          <span className="text-muted"> · 点开看字义与笔画</span>
+              <div className="mt-1 h-1 overflow-hidden rounded-full bg-line">
+                <div
+                  className="h-full rounded-full bg-cinnabar"
+                  style={{ width: `${Math.round((value / max) * 100)}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-sm leading-relaxed text-ink">{idea.meaning}</p>
+        <p className="mt-2 text-xs text-ink-soft">
+          {idea.fills.length ? `补${idea.fills.join("、")}` : "五行作参照"}
+          <span className="text-muted"> · {open ? "收起完整依据" : "展开完整依据"}</span>
         </p>
       </button>
-      <div className="mt-4 space-y-3 border-t border-line pt-4 text-sm">
-        <div>
-          <div className="text-xs tracking-wide text-muted">寓意</div>
-          <p className="mt-1 leading-relaxed text-ink">{idea.meaning}</p>
-        </div>
-        <div>
-          <div className="text-xs tracking-wide text-muted">依据</div>
-          <ul className="mt-1 space-y-1.5 leading-relaxed text-ink-soft">
-            {idea.basis.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-        </div>
-        <p className="leading-relaxed text-ink-soft">
-          <span className="text-muted">备注 </span>
-          {idea.note}
-        </p>
-      </div>
       {open ? (
         <div className="rise mt-4 space-y-3 border-t border-line pt-4 text-sm">
+          <div>
+            <div className="text-xs tracking-wide text-muted">判断依据</div>
+            <ul className="mt-1 space-y-1.5 leading-relaxed text-ink-soft">
+              {idea.basis.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </div>
+          <p className="leading-relaxed text-ink-soft">
+            <span className="text-muted">备注 </span>
+            {idea.note}
+          </p>
           <ul className="space-y-2">
             {idea.chars.map((c) => (
               <li key={c.c}>
@@ -419,10 +438,28 @@ function NameCard({
 }
 
 function BirthFields({
-  year, month, day, hour, clock, gender,
-  longitude, setYear, setMonth, setDay, setHour, setClock, setGender, setLongitude,
+  year,
+  month,
+  day,
+  hour,
+  clock,
+  gender,
+  longitude,
+  setYear,
+  setMonth,
+  setDay,
+  setHour,
+  setClock,
+  setGender,
+  setLongitude,
 }: {
-  year: string; month: string; day: string; hour: string; clock: string; gender: Gender; longitude: string;
+  year: string;
+  month: string;
+  day: string;
+  hour: string;
+  clock: string;
+  gender: Gender;
+  longitude: string;
   setClock: (v: string) => void;
   setYear: (v: string) => void;
   setMonth: (v: string) => void;
@@ -434,26 +471,51 @@ function BirthFields({
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <Chip on={gender === "m"} onClick={() => setGender("m")}>男</Chip>
-        <Chip on={gender === "f"} onClick={() => setGender("f")}>女</Chip>
+        <Chip on={gender === "m"} onClick={() => setGender("m")}>
+          男
+        </Chip>
+        <Chip on={gender === "f"} onClick={() => setGender("f")}>
+          女
+        </Chip>
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <select className={control} value={year} onChange={(e) => setYear(e.target.value)} aria-label="年">
+        <select
+          className={control}
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+          aria-label="年"
+        >
           <option value="">年</option>
           {YEARS.map((y) => (
-            <option key={y} value={y}>{y}</option>
+            <option key={y} value={y}>
+              {y}
+            </option>
           ))}
         </select>
-        <select className={control} value={month} onChange={(e) => setMonth(e.target.value)} aria-label="月">
+        <select
+          className={control}
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+          aria-label="月"
+        >
           <option value="">月</option>
           {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-            <option key={m} value={m}>{m} 月</option>
+            <option key={m} value={m}>
+              {m} 月
+            </option>
           ))}
         </select>
-        <select className={control} value={day} onChange={(e) => setDay(e.target.value)} aria-label="日">
+        <select
+          className={control}
+          value={day}
+          onChange={(e) => setDay(e.target.value)}
+          aria-label="日"
+        >
           <option value="">日</option>
           {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
-            <option key={d} value={d}>{d} 日</option>
+            <option key={d} value={d}>
+              {d} 日
+            </option>
           ))}
         </select>
       </div>
@@ -471,7 +533,9 @@ function BirthFields({
               }}
               className={cn(
                 "min-h-11 rounded-sm border px-1 text-sm",
-                hour === h.id ? "border-ink bg-ink text-paper-3" : "border-line bg-paper-3 text-ink",
+                hour === h.id
+                  ? "border-ink bg-ink text-paper-3"
+                  : "border-line bg-paper-3 text-ink",
               )}
             >
               <span className="block font-serif">{h.name}</span>
@@ -493,7 +557,10 @@ function BirthFields({
             未知
           </button>
         </div>
-        <p className="mt-2 text-xs leading-relaxed text-muted">不确定时辰就选“未知”，时柱不计入，只按年、月、日三柱排。夜里 23 点到 24 点选“晚子”，日期仍填当天。排盘以节气换年月，不以正月初一。</p>
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          不确定时辰就选“未知”，时柱不计入，只按年、月、日三柱排。夜里 23 点到 24
+          点选“晚子”，日期仍填当天。排盘以节气换年月，不以正月初一。
+        </p>
       </div>
       <Field label="精确出生时刻，可空">
         <input
@@ -508,7 +575,9 @@ function BirthFields({
             if (exact) setHour(hourIdOf(exact.hour));
           }}
         />
-        <p className="mt-2 text-xs leading-relaxed text-muted">填了时刻（时:分）就按它排盘，优先于上面的时辰，立春等节气交接精确到分钟；不填则取所选时辰的中点。</p>
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          填了时刻（时:分）就按它排盘，优先于上面的时辰，立春等节气交接精确到分钟；不填则取所选时辰的中点。
+        </p>
       </Field>
       <Field label="出生地经度，可空">
         <input
@@ -522,7 +591,9 @@ function BirthFields({
           placeholder="例如 121.5"
           onChange={(e) => setLongitude(e.target.value)}
         />
-        <p className="mt-2 text-xs leading-relaxed text-muted">用于校正真太阳时。东经填正数，西经填负数；不填则按标准时间排盘。</p>
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          用于校正真太阳时。东经填正数，西经填负数；不填则按标准时间排盘。
+        </p>
       </Field>
     </div>
   );
@@ -553,7 +624,9 @@ function ElPicker({ value, onChange }: { value: El[] | null; onChange: (v: El[] 
           </Chip>
         ))}
       </div>
-      <p className="mt-2 text-xs text-muted">{value ? "已改用手选五行，不再按所缺来补。" : "不选则补四柱和姓里偏缺的五行。"}</p>
+      <p className="mt-2 text-xs text-muted">
+        {value ? "已改用手选五行，不再按所缺来补。" : "不选则补四柱和姓里偏缺的五行。"}
+      </p>
     </div>
   );
 }
@@ -563,10 +636,16 @@ function ChartRead({ chart }: { chart: Chart }) {
     <div className="space-y-4">
       <Pillars chart={chart} />
       <p className="text-sm text-muted">
-        农历 {chart.lunar} · 生肖 {chart.zodiac} · {chart.dayGan}{chart.dayEl} · {chart.strength}（简化估算）
+        农历 {chart.lunar} · 生肖 {chart.zodiac} · {chart.dayGan}
+        {chart.dayEl} · {chart.strength}（简化估算）
       </p>
       <p className="text-xs leading-relaxed text-muted">
-        标准时间 {chart.solarTime} · 真太阳时 {chart.trueSolarTime}{!chart.hourKnown ? "（时辰未知）" : chart.longitude === null ? "（未校正）" : `（已校正 ${chart.trueSolarOffset >= 0 ? "+" : ""}${chart.trueSolarOffset} 分钟）`}
+        标准时间 {chart.solarTime} · 真太阳时 {chart.trueSolarTime}
+        {!chart.hourKnown
+          ? "（时辰未知）"
+          : chart.longitude === null
+            ? "（未校正）"
+            : `（已校正 ${chart.trueSolarOffset >= 0 ? "+" : ""}${chart.trueSolarOffset} 分钟）`}
       </p>
       <Bars chart={chart} />
       <p className="text-sm leading-relaxed text-ink-soft">{chart.summary}</p>
@@ -581,7 +660,8 @@ function ChartRead({ chart }: { chart: Chart }) {
       {chart.daYun.length ? (
         <div className="flex gap-2 overflow-x-auto pb-1">
           {chart.daYun.map((d) => {
-            const on = chart.currentYun?.ganZhi === d.ganZhi && chart.currentYun.startYear === d.startYear;
+            const on =
+              chart.currentYun?.ganZhi === d.ganZhi && chart.currentYun.startYear === d.startYear;
             return (
               <div
                 key={`${d.ganZhi}-${d.startYear}`}
@@ -774,8 +854,52 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
     setPreferred(null);
   }
 
-  const ideas = mode === "baby" ? babyOut?.ideas ?? [] : brandOut?.ideas ?? [];
+  const ideas = mode === "baby" ? (babyOut?.ideas ?? []) : (brandOut?.ideas ?? []);
   const activeOut = mode === "baby" ? babyOut : brandOut;
+  const aiRequest = useMemo<AiExplainRequest | null>(() => {
+    const output = mode === "baby" ? babyOut : brandOut;
+    if (!output?.ideas.length) return null;
+    const chart = output.chart;
+    return {
+      kind: mode,
+      context: {
+        style: mode === "baby" ? style : brandStyle,
+        ...(mode === "company"
+          ? {
+              industry:
+                INDUSTRIES.find((industry) => industry.id === industryId)?.name ?? "未分类行业",
+            }
+          : {}),
+        ...(output.diagnosis ? { diagnosis: output.diagnosis } : {}),
+        ...(chart
+          ? {
+              chart: {
+                dayElement: chart.dayEl,
+                strength: chart.strength,
+                usefulElements: chart.yong,
+                favorableElements: chart.xi,
+                lackingElements: chart.lack,
+                hourKnown: chart.hourKnown,
+              },
+            }
+          : {}),
+      },
+      candidates: output.ideas.slice(0, 3).map((idea) => ({
+        full: idea.full,
+        pinyin: idea.pinyin,
+        score: idea.score,
+        scoreBreakdown: idea.scoreBreakdown,
+        meaning: idea.meaning,
+        reasons: idea.reasons.slice(0, 5),
+        basis: idea.basis.slice(0, 6),
+        characters: idea.chars.map((char) => ({
+          char: char.c,
+          element: char.el,
+          gloss: char.gloss,
+        })),
+      })),
+    };
+  }, [babyOut, brandOut, brandStyle, industryId, mode, style]);
   const lex = useMemo(() => searchGlyphs(query, lexEl), [query, lexEl]);
 
   return (
@@ -816,7 +940,9 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
             )}
           >
             {label}
-            {id === "saved" && saved.length ? <span className="ml-1 tabular-nums text-muted">{saved.length}</span> : null}
+            {id === "saved" && saved.length ? (
+              <span className="ml-1 tabular-nums text-muted">{saved.length}</span>
+            ) : null}
           </button>
         ))}
       </nav>
@@ -824,8 +950,12 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
       {tab === "name" ? (
         <section className="mt-5 space-y-4">
           <div className="flex gap-2">
-            <Chip on={mode === "baby"} onClick={() => setMode("baby")}>新生儿</Chip>
-            <Chip on={mode === "company"} onClick={() => setMode("company")}>公司</Chip>
+            <Chip on={mode === "baby"} onClick={() => setMode("baby")}>
+              新生儿
+            </Chip>
+            <Chip on={mode === "company"} onClick={() => setMode("company")}>
+              公司
+            </Chip>
             <button type="button" className="min-h-11 px-2 text-sm text-muted" onClick={fillSample}>
               填一个例子
             </button>
@@ -834,15 +964,37 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
           {mode === "baby" ? (
             <div className="space-y-5 rounded-xl border border-line bg-paper-3 p-5">
               <Field label="姓">
-                <input className={control} value={surname} maxLength={2} placeholder="林，或欧阳" onChange={(e) => setSurname(e.target.value)} />
+                <input
+                  className={control}
+                  value={surname}
+                  maxLength={2}
+                  placeholder="林，或欧阳"
+                  onChange={(e) => setSurname(e.target.value)}
+                />
               </Field>
               <BirthFields
-                year={year} month={month} day={day} hour={hour} clock={clock} gender={gender} longitude={longitude}
-                setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setClock={setClock} setGender={setGender} setLongitude={setLongitude}
+                year={year}
+                month={month}
+                day={day}
+                hour={hour}
+                clock={clock}
+                gender={gender}
+                longitude={longitude}
+                setYear={setYear}
+                setMonth={setMonth}
+                setDay={setDay}
+                setHour={setHour}
+                setClock={setClock}
+                setGender={setGender}
+                setLongitude={setLongitude}
               />
               {liveChart ? (
                 <p className="text-sm leading-relaxed text-ink-soft">
-                  {liveChart.pillars.filter((p) => p.known).map((p) => `${p.gan}${p.zhi}`).join(" ")} · {liveChart.strength}（简化估算）
+                  {liveChart.pillars
+                    .filter((p) => p.known)
+                    .map((p) => `${p.gan}${p.zhi}`)
+                    .join(" ")}{" "}
+                  · {liveChart.strength}（简化估算）
                   {" · "}
                   四柱{liveChart.lack.length ? `缺${liveChart.lack.join("、")}` : "无明显所缺"}
                   {surnameInfo ? ` · 姓属${surnameInfo.els.join("、") || "未入字库"}` : ""}
@@ -856,15 +1008,21 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
               <div>
                 <div className="mb-2 text-sm font-medium text-ink-soft">名字字数</div>
                 <div className="flex gap-2">
-                  <Chip on={givenLen === 2} onClick={() => setGivenLen(2)}>双字</Chip>
-                  <Chip on={givenLen === 1} onClick={() => setGivenLen(1)}>单字</Chip>
+                  <Chip on={givenLen === 2} onClick={() => setGivenLen(2)}>
+                    双字
+                  </Chip>
+                  <Chip on={givenLen === 1} onClick={() => setGivenLen(1)}>
+                    单字
+                  </Chip>
                 </div>
               </div>
               <div>
                 <div className="mb-2 text-sm font-medium text-ink-soft">气质</div>
                 <div className="flex flex-wrap gap-2">
                   {STYLES.map((s) => (
-                    <Chip key={s} on={style === s} onClick={() => setStyle(s)}>{s}</Chip>
+                    <Chip key={s} on={style === s} onClick={() => setStyle(s)}>
+                      {s}
+                    </Chip>
                   ))}
                 </div>
               </div>
@@ -872,58 +1030,118 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
               {givenLen === 2 ? (
                 <div className="grid grid-cols-[1fr_auto] gap-2">
                   <Field label="辈分字，可空">
-                    <input className={control} value={generation} maxLength={1} onChange={(e) => setGeneration(e.target.value)} />
+                    <input
+                      className={control}
+                      value={generation}
+                      maxLength={1}
+                      onChange={(e) => setGeneration(e.target.value)}
+                    />
                   </Field>
                   <div>
                     <div className="mb-2 text-sm font-medium text-ink-soft">位置</div>
                     <div className="flex gap-2">
-                      <Chip on={generationPos === "front"} onClick={() => setGenerationPos("front")}>前</Chip>
-                      <Chip on={generationPos === "back"} onClick={() => setGenerationPos("back")}>后</Chip>
+                      <Chip
+                        on={generationPos === "front"}
+                        onClick={() => setGenerationPos("front")}
+                      >
+                        前
+                      </Chip>
+                      <Chip on={generationPos === "back"} onClick={() => setGenerationPos("back")}>
+                        后
+                      </Chip>
                     </div>
                   </div>
                 </div>
               ) : null}
               <Field label="避开的字">
-                <input className={control} value={avoid} placeholder="不必多，写要躲开的" onChange={(e) => setAvoid(e.target.value)} />
+                <input
+                  className={control}
+                  value={avoid}
+                  placeholder="不必多，写要躲开的"
+                  onChange={(e) => setAvoid(e.target.value)}
+                />
               </Field>
-              <button type="button" onClick={() => runBaby()} className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm">
+              <button
+                type="button"
+                onClick={() => runBaby()}
+                className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
+              >
                 衡名
               </button>
             </div>
           ) : (
             <div className="space-y-5 rounded-xl border border-line bg-paper-3 p-5">
               <Field label="行业">
-                <select className={control} value={industryId} onChange={(e) => setIndustryId(e.target.value)}>
+                <select
+                  className={control}
+                  value={industryId}
+                  onChange={(e) => setIndustryId(e.target.value)}
+                >
                   {INDUSTRIES.map((i) => (
-                    <option key={i.id} value={i.id}>{i.name}</option>
+                    <option key={i.id} value={i.id}>
+                      {i.name}
+                    </option>
                   ))}
                 </select>
               </Field>
-              <p className="text-sm text-ink-soft">{INDUSTRIES.find((i) => i.id === industryId)?.note}</p>
+              <p className="text-sm text-ink-soft">
+                {INDUSTRIES.find((i) => i.id === industryId)?.note}
+              </p>
               <div>
                 <div className="mb-2 text-sm font-medium text-ink-soft">气质</div>
                 <div className="flex flex-wrap gap-2">
                   {STYLES.map((s) => (
-                    <Chip key={s} on={brandStyle === s} onClick={() => setBrandStyle(s)}>{s}</Chip>
+                    <Chip key={s} on={brandStyle === s} onClick={() => setBrandStyle(s)}>
+                      {s}
+                    </Chip>
                   ))}
                 </div>
               </div>
               <ElPicker value={brandPref} onChange={setBrandPref} />
               <Field label="想用的一个字，可空">
-                <input className={control} value={include} maxLength={1} onChange={(e) => setInclude(e.target.value)} />
+                <input
+                  className={control}
+                  value={include}
+                  maxLength={1}
+                  onChange={(e) => setInclude(e.target.value)}
+                />
               </Field>
               <Field label="避开的字">
-                <input className={control} value={brandAvoid} onChange={(e) => setBrandAvoid(e.target.value)} />
+                <input
+                  className={control}
+                  value={brandAvoid}
+                  onChange={(e) => setBrandAvoid(e.target.value)}
+                />
               </Field>
-              <Chip on={withSuffix} onClick={() => setWithSuffix((v) => !v)}>附行业词</Chip>
-              <Chip on={useFounder} onClick={() => setUseFounder((v) => !v)}>按创办人生辰</Chip>
+              <Chip on={withSuffix} onClick={() => setWithSuffix((v) => !v)}>
+                附行业词
+              </Chip>
+              <Chip on={useFounder} onClick={() => setUseFounder((v) => !v)}>
+                按创办人生辰
+              </Chip>
               {useFounder ? (
                 <BirthFields
-                  year={fYear} month={fMonth} day={fDay} hour={fHour} clock={fClock} gender={fGender} longitude={fLongitude}
-                  setYear={setFYear} setMonth={setFMonth} setDay={setFDay} setHour={setFHour} setClock={setFClock} setGender={setFGender} setLongitude={setFLongitude}
+                  year={fYear}
+                  month={fMonth}
+                  day={fDay}
+                  hour={fHour}
+                  clock={fClock}
+                  gender={fGender}
+                  longitude={fLongitude}
+                  setYear={setFYear}
+                  setMonth={setFMonth}
+                  setDay={setFDay}
+                  setHour={setFHour}
+                  setClock={setFClock}
+                  setGender={setFGender}
+                  setLongitude={setFLongitude}
                 />
               ) : null}
-              <button type="button" onClick={() => runCompany()} className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm">
+              <button
+                type="button"
+                onClick={() => runCompany()}
+                className="sticky bottom-3 z-10 h-12 w-full rounded-sm bg-cinnabar text-base font-medium text-cinnabar-ink shadow-sm"
+              >
                 衡字号
               </button>
             </div>
@@ -938,7 +1156,42 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
           ) : null}
           {activeOut?.note ? <p className="text-sm text-muted">{activeOut.note}</p> : null}
           <div ref={listRef} className="space-y-3">
-            {ideas.map((idea) => (
+            {ideas.length ? (
+              <aside className="rounded-lg border border-line bg-paper px-4 py-3 text-xs leading-relaxed text-ink-soft">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-medium text-ink">评分口径</span>
+                  <span className="text-muted">不是吉凶判定</span>
+                </div>
+                <p className="mt-1">
+                  命局/行业 30 · 音律 18 · 字义 18 · 气质 12 · 数理 12 · 易用 10
+                </p>
+              </aside>
+            ) : null}
+            {ideas.slice(0, 3).map((idea) => (
+              <NameCard
+                key={idea.id}
+                idea={idea}
+                open={openId === idea.id}
+                saved={saved.some((s) => s.full === idea.full && s.kind === idea.kind)}
+                onOpen={() => setOpenId((id) => (id === idea.id ? null : idea.id))}
+                onSave={() => remember(idea)}
+              />
+            ))}
+            {aiRequest ? (
+              <AiInsightPanel
+                key={aiRequest.candidates.map((candidate) => candidate.full).join("|")}
+                request={aiRequest}
+              />
+            ) : null}
+            {ideas.length > 3 ? (
+              <div className="px-1 pt-2">
+                <h2 className="font-serif text-xl">更多候选</h2>
+                <p className="mt-1 text-xs leading-relaxed text-muted">
+                  分数接近时，优先比较字义、读音和真实使用场景。
+                </p>
+              </div>
+            ) : null}
+            {ideas.slice(3).map((idea) => (
               <NameCard
                 key={idea.id}
                 idea={idea}
@@ -953,7 +1206,9 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
             <button
               type="button"
               className="h-12 w-full rounded-sm border border-line bg-paper-3 text-ink"
-              onClick={() => (mode === "baby" ? runBaby(activeOut.page + 1) : runCompany(activeOut.page + 1))}
+              onClick={() =>
+                mode === "baby" ? runBaby(activeOut.page + 1) : runCompany(activeOut.page + 1)
+              }
             >
               再衡一批
               <span className="ml-2 tabular-nums text-muted">
@@ -984,10 +1239,26 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
         <section className="mt-5 space-y-4 rounded-xl border border-line bg-paper-3 p-5">
           <h2 className="font-serif text-xl">看八字</h2>
           <BirthFields
-            year={year} month={month} day={day} hour={hour} clock={clock} gender={gender} longitude={longitude}
-            setYear={setYear} setMonth={setMonth} setDay={setDay} setHour={setHour} setClock={setClock} setGender={setGender} setLongitude={setLongitude}
+            year={year}
+            month={month}
+            day={day}
+            hour={hour}
+            clock={clock}
+            gender={gender}
+            longitude={longitude}
+            setYear={setYear}
+            setMonth={setMonth}
+            setDay={setDay}
+            setHour={setHour}
+            setClock={setClock}
+            setGender={setGender}
+            setLongitude={setLongitude}
           />
-          {liveChart ? <ChartRead chart={liveChart} /> : <p className="text-sm text-muted">选好年月日，四柱会在这里排开。</p>}
+          {liveChart ? (
+            <ChartRead chart={liveChart} />
+          ) : (
+            <p className="text-sm text-muted">选好年月日，四柱会在这里排开。</p>
+          )}
           <button
             type="button"
             className="h-12 w-full rounded-sm bg-cinnabar font-medium text-cinnabar-ink"
@@ -1012,9 +1283,13 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
             />
           </Field>
           <div className="flex flex-wrap gap-2">
-            <Chip on={lexEl === "全部"} onClick={() => setLexEl("全部")}>全部</Chip>
+            <Chip on={lexEl === "全部"} onClick={() => setLexEl("全部")}>
+              全部
+            </Chip>
             {ELS.map((el) => (
-              <Chip key={el} on={lexEl === el} onClick={() => setLexEl(el)}>{el}</Chip>
+              <Chip key={el} on={lexEl === el} onClick={() => setLexEl(el)}>
+                {el}
+              </Chip>
             ))}
           </div>
           <p className="text-xs leading-relaxed text-muted">
@@ -1039,7 +1314,9 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
             })}
           </ul>
           {!query && lexEl === "全部" ? (
-            <p className="text-sm text-muted">先输入要查的字。不输入时，只露出这一行五行里的前一批。</p>
+            <p className="text-sm text-muted">
+              先输入要查的字。不输入时，只露出这一行五行里的前一批。
+            </p>
           ) : null}
         </section>
       ) : null}
@@ -1052,13 +1329,22 @@ export function Studio({ initialTab }: { initialTab?: "chart" } = {}) {
             </p>
           ) : (
             saved.map((s) => (
-              <article key={s.id} className="flex items-start justify-between gap-3 rounded-xl border border-line bg-paper-3 p-5">
+              <article
+                key={s.id}
+                className="flex items-start justify-between gap-3 rounded-xl border border-line bg-paper-3 p-5"
+              >
                 <div>
                   <h3 className="font-serif text-2xl">{s.full}</h3>
                   <p className="mt-1 text-sm text-muted">{s.pinyin}</p>
-                  <p className="mt-1 text-sm text-ink-soft">{s.kind === "baby" ? "人名" : "字号"} · {s.note}</p>
+                  <p className="mt-1 text-sm text-ink-soft">
+                    {s.kind === "baby" ? "人名" : "字号"} · {s.note}
+                  </p>
                 </div>
-                <button type="button" className="min-h-11 shrink-0 text-sm text-muted" onClick={() => forget(s.id)}>
+                <button
+                  type="button"
+                  className="min-h-11 shrink-0 text-sm text-muted"
+                  onClick={() => forget(s.id)}
+                >
                   移除
                 </button>
               </article>
