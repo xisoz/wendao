@@ -1,4 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { SiteNav } from "@/components/site/chrome";
+import { Cover } from "@/components/site/article-bits";
+import { fmtDate } from "@/lib/site/format";
+import type { ArticleSummary } from "@/lib/site/articles-repo";
 
 const criteria = [
   {
@@ -83,7 +87,7 @@ const process = [
   ["04", "留下依据", "最后留下为什么选它、为什么避开它，让名字以后还能被重新理解。"],
 ] as const;
 
-export function Home() {
+export function Home({ articles = [] }: { articles?: ArticleSummary[] }) {
   return (
     <main className="landing-shell mx-auto min-h-screen max-w-6xl px-4 pb-12 pt-4 sm:px-6 lg:px-8">
       <header className="landing-header flex items-center justify-between gap-4">
@@ -102,13 +106,7 @@ export function Home() {
             </span>
           </span>
         </Link>
-        <nav
-          className="landing-nav hidden items-center gap-6 text-sm text-ink-soft sm:flex"
-          aria-label="首页导航"
-        >
-          <a href="#good-name">什么是好名字</a>
-          <a href="#examples">名字示例</a>
-        </nav>
+        <SiteNav className="hidden sm:flex" />
         <Link
           to="/name"
           className="landing-header-cta inline-flex min-h-10 items-center rounded-full px-4 text-sm"
@@ -119,6 +117,7 @@ export function Home() {
           </span>
         </Link>
       </header>
+      <SiteNav className="mt-3 sm:hidden" />
 
       <section className="landing-hero mt-5 overflow-hidden rounded-[1.75rem]">
         <div className="landing-hero-copy">
@@ -324,16 +323,50 @@ export function Home() {
         </ol>
       </section>
 
+      {articles.length ? (
+        <section id="articles" className="landing-section scroll-mt-8">
+          <div className="landing-section-heading flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="landing-kicker">
+                <span aria-hidden="true" /> 阅读 / Articles
+              </p>
+              <h2 className="landing-section-title mt-4 font-serif">先读懂，再取舍。</h2>
+            </div>
+            <Link to="/articles" className="text-sm text-cinnabar">
+              全部文章 →
+            </Link>
+          </div>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-3">
+            {articles.slice(0, 3).map((a) => (
+              <li key={a.id}>
+                <Link
+                  to="/articles/$slug"
+                  params={{ slug: a.slug }}
+                  className="block rounded-2xl border border-line bg-paper-3 p-3 transition hover:border-ink"
+                >
+                  <Cover src={a.cover} category={a.category} />
+                  <p className="mt-3 text-xs text-muted">
+                    {a.pinned ? <span className="pin-badge mr-2">置顶</span> : null}
+                    {a.category} · {fmtDate(a.published_at)}
+                  </p>
+                  <h3 className="mt-1 font-serif text-lg leading-snug">{a.title}</h3>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <section className="landing-final-cta mt-20 flex flex-col gap-6 rounded-[1.5rem] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-9">
         <div>
-          <p className="text-xs tracking-[0.18em] text-cinnabar-ink/70">轮到你的名字了</p>
-          <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-paper-3 sm:text-4xl">
+          <p className="text-xs tracking-[0.18em] text-[#b0643f]">轮到你的名字了</p>
+          <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-ink sm:text-4xl">
             带上姓氏、生辰或行业，开始认真取一个名字。
           </h2>
         </div>
         <Link
           to="/name"
-          className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-paper-3 px-6 text-sm text-ink"
+          className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-ink px-6 text-sm text-paper-3 transition hover:bg-[#b0643f]"
         >
           进入取名工作台{" "}
           <span className="ml-3" aria-hidden="true">

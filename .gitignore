@@ -14,3 +14,4 @@ screenshots
 .wrangler
 *.log
 .DS_Store
+data/uploads/

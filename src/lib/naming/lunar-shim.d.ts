@@ -75,6 +75,28 @@ declare module "lunar-javascript" {
     getEightChar(): EightCharLike;
     getYearInGanZhi(): string;
     getMonthInGanZhi(): string;
+    // 黄历 / 六爻（src/lib/site）
+    getDayInGanZhi(): string;
+    getDayInGanZhiExact(): string;
+    getMonthInGanZhiExact(): string;
+    getDayXunKongExact(): string;
+    getMonthInChinese(): string;
+    getDayInChinese(): string;
+    getJieQi(): string;
+    getDayYi(): string[];
+    getDayJi(): string[];
+    getDayChongDesc(): string;
+    getDaySha(): string;
+    getDayTianShen(): string;
+    getDayTianShenLuck(): string;
+    getZhiXing(): string;
+    getPengZuGan(): string;
+    getPengZuZhi(): string;
+    getXiu(): string;
+    getXiuLuck(): string;
+    getDayNaYin(): string;
+    getDayJiShen(): string[];
+    getDayXiongSha(): string[];
   }
   export interface SolarLike {
     getLunar(): LunarLike;
