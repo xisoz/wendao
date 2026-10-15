@@ -267,10 +267,10 @@ export function Home({ articles = [] }: { articles?: ArticleSummary[] }) {
 
       <section className="landing-final-cta mt-20 flex flex-col gap-6 rounded-[1.5rem] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-9">
         <div>
-          <p className="text-xs tracking-[0.18em] text-cinnabar-ink/70">轮到你的名字了</p>
-          <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-paper-3 sm:text-4xl">带上姓氏、生辰或行业，开始认真取一个名字。</h2>
+          <p className="text-xs tracking-[0.18em] text-[#b0643f]">轮到你的名字了</p>
+          <h2 className="mt-3 max-w-lg font-serif text-3xl leading-tight text-ink sm:text-4xl">带上姓氏、生辰或行业，开始认真取一个名字。</h2>
         </div>
-        <Link to="/name" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-paper-3 px-6 text-sm text-ink">
+        <Link to="/name" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-ink px-6 text-sm text-paper-3 transition hover:bg-[#b0643f]">
           进入取名工作台 <span className="ml-3" aria-hidden="true">→</span>
         </Link>
       </section>
